@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:01:19 by jihalee           #+#    #+#             */
-/*   Updated: 2023/10/08 23:34:36 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/11/24 15:00:49 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef CUB3D_H
+# define CUB3D_H
 # include <mlx.h>
 # include <mlx_int.h>
 # include <unistd.h>
@@ -22,8 +22,8 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include "libft.h"
-# include "vector.h"
 
 # define IMG_WIDTH 256
 # define IMG_HEGIHT 256
@@ -42,7 +42,7 @@ typedef struct s_vars
 	t_xvar		*mlx;
 	t_win_list	*win;
 	t_data		img;
-	int			need_update;
+	bool		key_pressed;
 }				t_vars;
 
 #endif

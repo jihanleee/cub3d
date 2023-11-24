@@ -1,4 +1,4 @@
-NAME = miniRT
+NAME = cub3d
 
 SRC_DIR = ./srcs/
 
@@ -12,14 +12,13 @@ DIR_LIBFT = ./libft/
 
 LIBFT = ./libft/libft.a
 
-SRCS =	./srcs/main.c \
-		./vector/vector.c
+SRCS =	./srcs/main.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -g -Wextra -Werror -Wall
+CFLAGS = -g -Wextra -Wall #-Werror 
 
 all : $(NAME)
 
