@@ -19,12 +19,14 @@ int	initialize_vars(t_vars *vars)
 	vars->current_angle = 0;
 	vars->player_x = 22;
 	vars->player_y = 33; /*initial position*/
+	//vars->player_x = 0;
+	//vars->player_y = 0;
 	vars->dir_x = 0;
 	vars->dir_y = -1; /*initial direction*/
 	vars->plane_x = 0;
 	vars->plane_y = 0.66; /*camera plane of FOV 90*/
 	//added below
-	vars->map == NULL;
+	vars->map = NULL;
 	vars->player_x = 0;
 	vars->player_y = 0;
 	vars->players = 0;
@@ -165,10 +167,14 @@ int	main(int argc, char **argv)
 	int		i;
 	int		j;
 
+	if (argc != 2)
+		return (1);
 	vars.file = argv[1];
-	//validate_file(vars);
 	initialize_vars(&vars);
-	//validate_map(vars, argv[?]);
+	validate_file(&vars);
+	print_maps(vars.first_map, &vars);//
+	validate_map(&vars);
+	print_maps(vars.map, &vars);//
 	j = 0;
 	while (j++ < IMG_HEGIHT)
 	{

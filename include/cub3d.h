@@ -6,7 +6,7 @@
 /*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/29 00:04:36 by maya             ###   ########.fr       */
+/*   Updated: 2023/11/29 03:35:38 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,17 @@ typedef struct s_vars //info
 	double		plane_y;
 }				t_vars;
 
-//parsing
-/*
-- 사이즈 받아두기
-- 빈칸 X로 채워서 map validity check
-- X는 맵 그리는 과정에서 0이나 1로 취급
-*/
+/* validate_file.c */
+void	add_to_map(t_vars *vars, int count);
+void	validate_file(t_vars *vars);
+
+/* validate_map.c */
+void	parse_map(t_vars *vars);
+int		validate_map(t_vars *vars);
+
+/* utils.c */
+void	exit_error(char *message);
+//void	print_maps(char **map);
+void	print_maps(char **map, t_vars *vars);
 
 #endif

@@ -1,5 +1,8 @@
 
 
+#include <stdio.h>
+#include "cub3d.h"
+
 static int	hidden_file(char *s1, char *s2)
 {
 	int	i;
@@ -30,7 +33,7 @@ static int	line_first_word(char *str, int count)
 {
 	int	result;
 
-	if (ft_strlen(str) != length)
+	if (ft_strlen(str) != 2)
 		return (1);
 	if (count == 0)
 		result = ft_strncmp(str, "NO", 2);
@@ -46,21 +49,26 @@ static int	line_first_word(char *str, int count)
 static int	fc_value(char **array, int count)
 {
 	char	**rgb;
-	int		count;
+	int		index;
+	int		result;
+	int		temp;
 
-	if (ft_strnlen(array[0]) != 1)
+	if (ft_strlen(array[0]) != 1)
 		return (1);
 	if (count == 5)
 		result = ft_strncmp("F", array[0], 1);
 	else if (count == 6)
 		result = ft_strncmp("C", array[0], 1);
+	if (result != 0)
+		return (1);
 	rgb = ft_split(array[1], ',');
-	count = 0;
-	while (count > 4)
+	index = 0;
+	while (index < 3)
 	{
-		if (rgb[count] < 0 || rgb[count] > 225)
+		temp = ft_atoi(rgb[index]);
+		if (temp < 0 || temp > 225)
 			return (1);
-		count++;
+		index++;
 	}
 	return (0);
 }
@@ -74,6 +82,7 @@ static int	line_info(t_vars *vars, char *line, int count)
 	array = ft_split(line, ' ');
 	if (count >= 0 && count < 4)
 	{
+		//printf("%d: first word of line: %s\n", count, array[0]);
 		if (line_first_word(array[0], count) == 1)
 			return (1);
 		/*
@@ -83,9 +92,11 @@ static int	line_info(t_vars *vars, char *line, int count)
 			exit_error("ERROR - File Could Not Be Opened");
 		*/
 	}
-	if ((count == 4 || count == 7) && line != NULL)
+	else if ((count == 4 || count == 7) && line[0] != '\n')
+	{
 		return (1);
-	if (count == 5 || count == 6) //F and C value
+	}
+	else if (count == 5 || count == 6) //F and C value
 		if (fc_value(array, count) == 1)
 			return (1);
 	return (0);
@@ -98,13 +109,14 @@ void	add_to_map(t_vars *vars, int count)
 	char	*line;
 	int		line_num;
 	int		map_line;
+	int		fd;
 
-	height = count - 7;
+	height = count - 8;
 	vars->height = height;
 	vars->first_map = (char **)malloc(sizeof(char *) * (height + 1));
 	if (!vars->first_map)
 	{
-		free(vars)
+		free(vars);
 		exit_error("ERROR - Map Allocation Failed");
 	}
 	line_num = 0;
@@ -124,10 +136,10 @@ void	add_to_map(t_vars *vars, int count)
 		length = ft_strlen(line);
 		if (length > vars->width)
 			vars->width = length;
-		vars->first_map[map_line] = (char *)maloc(sizeof(char) * (length + 1));
+		vars->first_map[map_line] = (char *)malloc(sizeof(char) * (length + 1));
 		if (!vars->first_map[map_line])
 		{
-			free_map(vars->first_map, map_line);
+			//free_map(vars->first_map, map_line);
 			exit_error("ERROR - Malloc Error");
 		}
 		vars->first_map[map_line] = line; //strdup?
@@ -150,13 +162,18 @@ static int	check_lines(t_vars *vars)
 	line = get_next_line(fd);
 	while (line != NULL  && count < 8)
 	{
+		//printf("%d: %s ==> %d\n", count, line, line[0]);
 		if (line_info(vars, line, count) == 1)
 			return (1);
+		count++;
 		free(line);
 		line = get_next_line(fd);
 	}
 	while (line != NULL)
+	{
 		count++;
+		line = get_next_line(fd);
+	}
 	add_to_map(vars, count);
 	return (0);
 }
@@ -167,11 +184,13 @@ void	validate_file(t_vars *vars)
 
 	if (hidden_file(vars->file, ".cub") == 1)
 		exit_error("ERROR - Hidden File");
-	if (ft_strncmp(vars->filele + ft_strlen(file) - 4, ".cub", 4) != 0)
+	if (ft_strncmp(vars->file + ft_strlen(vars->file) - 4, ".cub", 4) != 0)
 		exit_error("ERROR - Wrong File Extension");
 	fd = open(vars->file, O_RDONLY);
 	if (fd == -1)
 		exit_error("ERROR - File Could Not Be Opened");
 	if (check_lines(vars) == 1)
 		exit_error("ERROR - File Doesn't Contain Exact Info");
+	printf("width: %d\n", vars->width);
+	printf("height: %d\n", vars->height);
 }

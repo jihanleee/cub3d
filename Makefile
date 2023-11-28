@@ -12,7 +12,7 @@ DIR_LIBFT = ./libft/
 
 LIBFT = ./libft/libft.a
 
-SRCS =	./srcs/main.c
+SRCS =	./srcs/main.c ./srcs/utils.c ./srcs/validate_file.c ./srcs/validate_map.c
 
 OBJS = $(SRCS:.c=.o)
 
