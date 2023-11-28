@@ -25,7 +25,6 @@ int	initialize_vars(t_vars *vars)
 	vars->plane_y = 0.66; /*camera plane of FOV 90*/
 	//added below
 	vars->map == NULL;
-	vars->exit = 0;
 	vars->player_x = 0;
 	vars->player_y = 0;
 	vars->players = 0;
@@ -160,7 +159,7 @@ int	render_next_frame(t_vars *vars)
 	return (0);
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_vars	vars;
 	int		i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/28 20:53:44 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/11/29 00:04:36 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ typedef struct s_vars //info
 	t_win_list	*win;
 	t_data		img;
 	bool		key_pressed;
+	char		*file;
 	char		**first_map;
+	char		**map;
 	int			go_u;
 	int			go_d;
 	int			go_r;
@@ -87,9 +89,9 @@ typedef struct s_vars //info
 	int			rotate_cw;
 	int			rotate_ccw;
 	double		current_angle;
-	char		**map;
 	int			height;
 	int			width;
+	int			players;
 	double		player_x;
 	double		player_y;
 	double		dir_x;
