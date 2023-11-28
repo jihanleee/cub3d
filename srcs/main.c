@@ -10,7 +10,19 @@ int	initialize_vars(t_vars *vars)
 			&vars->img.bits_per_pixel,
 			&vars->img.line_length,
 			&vars->img.endian);
-	vars->key_pressed = 0;
+	vars->go_u = 0;
+	vars->go_d = 0;
+	vars->go_l = 0;
+	vars->go_r = 0;
+	vars->rotate_cw = 0;
+	vars->rotate_ccw = 0;
+	vars->current_angle = 0;
+	vars->player_x = 22;
+	vars->player_y = 33; /*initial position*/
+	vars->dir_x = 0;
+	vars->dir_y = -1; /*initial direction*/
+	vars->plane_x = 0;
+	vars->plane_y = 0.66; /*camera plane of FOV 90*/
 	//added below
 	vars->map == NULL;
 	vars->exit = 0;
@@ -48,27 +60,103 @@ int	keypress(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
 		close_window(vars);
-	ft_printf("keypress\n");
-	vars->key_pressed = 1;
+	ft_printf("keypress %d\n", keycode);
+	if (keycode == XK_w)
+		vars->go_u = 1;
+	else if (keycode == XK_s)
+		vars->go_d = 1;
+	else if (keycode == XK_a)
+		vars->go_r = 1;
+	else if (keycode == XK_d)
+		vars->go_l = 1;
+	else if (keycode == XK_Left)
+		vars->rotate_cw = 1;
+	else if (keycode == XK_Right)
+		vars->rotate_ccw = 1;
 	return (0);
+}
+
+void	rotate(t_vars *vars)
+{
+	double	x;
+	double	y;
+
+	if (!vars->rotate_cw && !vars->rotate_ccw)
+		return ;
+	if (vars->rotate_ccw)
+		vars->current_angle = (vars->current_angle + ROT_SPEED);
+	if (vars->rotate_cw)
+		vars->current_angle = (vars->current_angle - ROT_SPEED);
+	if (vars->current_angle > M_PI * 2)
+		vars->current_angle -= (M_PI * 2);
+	if (vars->current_angle < 0)
+		vars->current_angle += (M_PI * 2);
+	x = 0;
+	y = -1;
+	vars->dir_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
+	vars->dir_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
+	x = -0.66;
+	y = 0;
+	vars->plane_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
+	vars->plane_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
+	printf("current angle %f dir_x %f dir_y %f\n", vars->current_angle, vars->dir_x, vars->dir_y);
+}
+
+void	move(t_vars *vars)
+{
+	if (vars->go_u)
+	{
+			vars->player_x += MOVE_SPEED * vars->dir_x;
+			vars->player_y += MOVE_SPEED * vars->dir_y;
+		printf("%f %f\n", vars->player_x, vars->player_y);
+		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
+	}
+	if (vars->go_d)
+	{
+			vars->player_x -= MOVE_SPEED * vars->dir_x;
+			vars->player_y -= MOVE_SPEED * vars->dir_y;
+		printf("%f %f\n", vars->player_x, vars->player_y);
+		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
+	}
+	if (vars->go_r)
+	{
+		vars->player_x += MOVE_SPEED * vars->dir_y;
+		vars->player_y -= MOVE_SPEED * vars->dir_x;
+		printf("%f %f\n", vars->player_x, vars->player_y);
+		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
+	}
+	if (vars->go_l)
+	{
+		vars->player_x -= MOVE_SPEED * vars->dir_y;
+		vars->player_y += MOVE_SPEED * vars->dir_x;
+		printf("%f %f\n", vars->player_x, vars->player_y);
+		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
+	}
 }
 
 int	keyrelease(int keycode, t_vars *vars)
 {
 	ft_printf("keyrelease\n");
-	vars->key_pressed = 0;
+	if (keycode == XK_w)
+		vars->go_u = 0;
+	else if (keycode == XK_s)
+		vars->go_d = 0;
+	else if (keycode == XK_a)
+		vars->go_r = 0;
+	else if (keycode == XK_d)
+		vars->go_l = 0;
+	else if (keycode == XK_Left)
+		vars->rotate_cw = 0;
+	else if (keycode == XK_Right)
+		vars->rotate_ccw = 0;
 	return (0);
 }
 
 int	render_next_frame(t_vars *vars)
 {
-	static int salut;
-
-	if (vars->key_pressed)
-	{
-		salut++;
-		ft_printf("keypressed bruh %d\n", salut);
-	}
+	move(vars);
+	rotate(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 	return (0);
 }
 
