@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mayalee <mayalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:01:19 by jihalee           #+#    #+#             */
-/*   Updated: 2023/11/27 23:09:57 by mayalee          ###   ########.fr       */
+/*   Updated: 2023/11/28 23:16:51 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ typedef struct s_vars //info
 	t_win_list	*win;
 	t_data		img;
 	bool		key_pressed;
+	char		**first_map;
 	char		**map;
+	int			height;
+	int			width;
 	double		player_x;
 	double		player_y;
 	double		dir_x;

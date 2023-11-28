@@ -11,6 +11,14 @@ int	initialize_vars(t_vars *vars)
 			&vars->img.line_length,
 			&vars->img.endian);
 	vars->key_pressed = 0;
+	//added below
+	vars->map == NULL;
+	vars->exit = 0;
+	vars->player_x = 0;
+	vars->player_y = 0;
+	vars->players = 0;
+	vars->height = 0;
+	vars->width = 0;
 	return (0);
 }
 
@@ -70,7 +78,10 @@ int	main()
 	int		i;
 	int		j;
 
+	vars.file = argv[1];
+	//validate_file(vars);
 	initialize_vars(&vars);
+	//validate_map(vars, argv[?]);
 	j = 0;
 	while (j++ < IMG_HEGIHT)
 	{
