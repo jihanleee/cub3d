@@ -173,7 +173,11 @@ int	main(int argc, char **argv)
 	initialize_vars(&vars);
 	validate_file(&vars);
 	print_maps(vars.first_map, &vars);//
-	validate_map(&vars);
+	if (validate_map(&vars) == 1)
+	{
+		exit_error("ERROR - Invalid Map");
+		return (1);
+	}
 	print_maps(vars.map, &vars);//
 	j = 0;
 	while (j++ < IMG_HEGIHT)

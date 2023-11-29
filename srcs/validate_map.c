@@ -110,4 +110,7 @@ int	validate_map(t_vars *vars)
 	//change spaces to X
 	parse_map(vars);
 	//flood fill ==> check if player can reach X
+	if (flood_fill(vars) ==1 )
+		return (1);
+	return (0);
 }
