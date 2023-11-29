@@ -10,7 +10,7 @@ int	fill_map(char **map, t_vars *vars)
 	y = vars->start_y;
 	if (map[y][x] == '0' || map[y][x] == 'X')
 		map[y][x] = '2';
-	
+	return (0);
 }
 
 

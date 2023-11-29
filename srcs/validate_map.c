@@ -92,7 +92,7 @@ int	vertical_walls(t_vars *vars)
 	{
 		if (vars->map[i][0] != '1')
 			return (1);
-			i++;
+		i++;
 	}
 	j = 0;
 	while (j < vars->height)

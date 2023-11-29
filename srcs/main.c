@@ -161,6 +161,74 @@ int	render_next_frame(t_vars *vars)
 	return (0);
 }
 
+double  get_dist(t_vars *vars, double raydir_x, double raydir_y)
+{
+    int     map_x;
+    int     map_y;
+    double  sidedist_x;
+    double  sidedist_y;
+    double  deltadist_x;
+    double  deltadist_y;
+    double  perpwalldist;
+    int     step_x;
+    int     step_y;
+    int     hit;
+    int     side;
+
+    map_x = (int)vars->player_x;
+    map_y = (int)vars->player_y;
+    if (raydir_x == 0)
+        deltadist_x = 1e30;
+    else
+        deltadist_x = abs(1 / raydir_x);
+    if (raydir_y == 0)
+        deltadist_y = 1e30;
+    else
+        deltadist_y = abs(1 / raydir_y);
+    hit = 0;
+    if (raydir_x < 0)
+    {
+        step_x = -1;
+        sidedist_x = (vars->player_y - map_x) * deltadist_x;
+    }
+    else
+    {
+        step_x = 1;
+        sidedist_x = (map_x + 1.0 - vars->player_x) * deltadist_x;
+    }
+    if (raydir_y < 0)
+    {
+        step_y = -1;
+        sidedist_y = (vars->player_y - map_y) * deltadist_y;
+    }
+    else
+    {
+        step_y = 1;
+        sidedist_y = (map_y + 1.0 - vars->player_x) * deltadist_y;
+    }
+    while (hit == 0)
+    {
+        if (sidedist_x < sidedist_y)
+        {
+            sidedist_x += deltadist_x;
+            map_x += step_x;
+            side = 0;
+        }
+        else
+        {
+            sidedist_y += deltadist_y;
+            map_y += step_y;
+            side = 1;
+        }
+        if (vars->map[map_x][map_y] > '0')
+            hit = 1;
+    }
+    if(side == 0)
+		perpwalldist = (sidedist_x - deltadist_x);
+    else
+		perpwalldist = (sidedist_y - deltadist_y);
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
