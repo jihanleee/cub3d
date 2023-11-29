@@ -6,7 +6,7 @@
 /*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/29 03:35:38 by maya             ###   ########.fr       */
+/*   Updated: 2023/11/29 15:54:52 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct s_vars //info
 	int			players;
 	double		player_x;
 	double		player_y;
+	int			start_x;
+	int			start_y;
 	double		dir_x;
 	double		dir_y;
 	double		plane_x;
@@ -112,5 +114,8 @@ int		validate_map(t_vars *vars);
 void	exit_error(char *message);
 //void	print_maps(char **map);
 void	print_maps(char **map, t_vars *vars);
+
+/* flood_fill.c */
+int flood_fill(t_vars *vars);
 
 #endif

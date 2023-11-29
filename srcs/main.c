@@ -19,8 +19,8 @@ int	initialize_vars(t_vars *vars)
 	vars->current_angle = 0;
 	vars->player_x = 22;
 	vars->player_y = 33; /*initial position*/
-	//vars->player_x = 0;
-	//vars->player_y = 0;
+	vars->start_x = 0;
+	vars->start_y = 0;
 	vars->dir_x = 0;
 	vars->dir_y = -1; /*initial direction*/
 	vars->plane_x = 0;
@@ -178,7 +178,7 @@ int	main(int argc, char **argv)
 		exit_error("ERROR - Invalid Map");
 		return (1);
 	}
-	print_maps(vars.map, &vars);//
+	//print_maps(vars.map, &vars);//
 	j = 0;
 	while (j++ < IMG_HEGIHT)
 	{
