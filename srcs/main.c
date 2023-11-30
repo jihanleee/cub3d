@@ -55,6 +55,16 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+unsigned int	pixel_color(t_data *data, int x, int y)
+{
+	char	*dst;
+
+	if (x < 0 || y < 0 || x > IMG_WIDTH || y > IMG_HEIGHT)
+		return (0);
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
+
 int	keypress(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
@@ -266,6 +276,33 @@ double  get_dist(t_vars *vars)
 		vars->rinfo.perpwalldist = (vars->rinfo.sidedist_y - vars->rinfo.deltadist_y);
 }
 
+
+/*texture test module*/
+/* int	main(int argc, char **argv)
+{
+	t_vars	vars;
+	int		i;
+	int		j;
+
+	vars.file = argv[1];
+	initialize_vars(&vars);
+	j = 0;
+	vars.texture.img = mlx_xpm_file_to_image(vars.mlx, "pigsmall.xpm", &i, &j);
+	vars.texture.addr = mlx_get_data_addr(vars.texture.img,
+			&vars.texture.bits_per_pixel,
+			&vars.texture.line_length,
+			&vars.texture.endian);
+	j = 0;
+	while (j++ < 256)
+	{
+		i = 0;
+		while (i++ < 256)
+			my_mlx_pixel_put(&vars.img, i, j, pixel_color(&vars.texture, i / 2, j / 2));
+	}
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
+	mlx_loop(vars.mlx);
+	return (0);
+} */
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
