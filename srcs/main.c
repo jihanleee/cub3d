@@ -227,11 +227,11 @@ double  get_dist(t_vars *vars)
     if (vars->rinfo.raydir_x == 0)
         vars->rinfo.deltadist_x = 9999999;
     else
-        vars->rinfo.deltadist_x = fabs(1 / vars->rinfo.raydir_x);
+        vars->rinfo.deltadist_x = fabs(sqrt((vars->rinfo.raydir_x * vars->rinfo.raydir_x) + (vars->rinfo.raydir_y * vars->rinfo.raydir_y)) / vars->rinfo.raydir_x);
     if (vars->rinfo.raydir_y == 0)
         vars->rinfo.deltadist_y = 9999999;
     else
-       vars->rinfo.deltadist_y = fabs(1 / vars->rinfo.raydir_y);
+       vars->rinfo.deltadist_y = fabs(sqrt((vars->rinfo.raydir_x * vars->rinfo.raydir_x) + (vars->rinfo.raydir_y * vars->rinfo.raydir_y)) / vars->rinfo.raydir_y);
     vars->rinfo.hit = 0;
     if (vars->rinfo.raydir_x < 0)
     {
