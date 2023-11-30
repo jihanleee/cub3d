@@ -200,7 +200,16 @@ void	draw_line(t_vars *vars, int x)
 	double	wall_x;
 	int		tex_x;
 	int		tex_y;
+	int		w_dir;
 
+	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y > 0)
+		w_dir = 0;
+	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y < 0)
+		w_dir = 1;
+	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x > 0)
+		w_dir = 2;
+	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x < 0)
+		w_dir = 3;
 	if (vars->rinfo.side == 0)
 		wall_x = vars->player_y + vars->rinfo.perpwalldist * vars->rinfo.raydir_y;
 	else
@@ -215,7 +224,7 @@ void	draw_line(t_vars *vars, int x)
 	while (y < drawend)
 	{
 		tex_y = (int)((double)i / (double)lineheight * (double)(128));
-		my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->texture), tex_x, tex_y));
+		my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->tex[w_dir]), tex_x, tex_y));
 		i++;
 		y++;
 	}
@@ -330,11 +339,26 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	//print_maps(vars.map, &vars);//
-	vars.texture.img = mlx_xpm_file_to_image(vars.mlx, "pigsmall.xpm", &i, &j);
-	vars.texture.addr = mlx_get_data_addr(vars.texture.img,
-			&vars.texture.bits_per_pixel,
-			&vars.texture.line_length,
-			&vars.texture.endian);
+	vars.tex[0].img = mlx_xpm_file_to_image(vars.mlx, "texture_1.xpm", &i, &j);
+	vars.tex[0].addr = mlx_get_data_addr(vars.tex[0].img,
+			&vars.tex[0].bits_per_pixel,
+			&vars.tex[0].line_length,
+			&vars.tex[0].endian);
+	vars.tex[1].img = mlx_xpm_file_to_image(vars.mlx, "texture_2.xpm", &i, &j);
+	vars.tex[1].addr = mlx_get_data_addr(vars.tex[1].img,
+			&vars.tex[1].bits_per_pixel,
+			&vars.tex[1].line_length,
+			&vars.tex[1].endian);
+	vars.tex[2].img = mlx_xpm_file_to_image(vars.mlx, "texture_3.xpm", &i, &j);
+	vars.tex[2].addr = mlx_get_data_addr(vars.tex[2].img,
+			&vars.tex[2].bits_per_pixel,
+			&vars.tex[2].line_length,
+			&vars.tex[2].endian);
+	vars.tex[3].img = mlx_xpm_file_to_image(vars.mlx, "texture_4.xpm", &i, &j);
+	vars.tex[3].addr = mlx_get_data_addr(vars.tex[3].img,
+			&vars.tex[3].bits_per_pixel,
+			&vars.tex[3].line_length,
+			&vars.tex[3].endian);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);

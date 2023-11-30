@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/30 16:33:09 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/01 00:31:01 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_vars //info
 	t_win_list	*win;
 	t_data		img;
 	t_data		wimg;
-	t_data		texture;
+	t_data		tex[4];
 	bool		key_pressed;
 	char		*file;
 	char		**first_map;
