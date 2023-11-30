@@ -196,18 +196,27 @@ void	draw_line(t_vars *vars, int x)
 	int	drawstart;
 	int	drawend;
 	int	y;
+	int	i;
+	double	wall_x;
+	int		tex_x;
+	int		tex_y;
 
+	if (vars->rinfo.side == 0)
+		wall_x = vars->player_y + vars->rinfo.perpwalldist * vars->rinfo.raydir_y;
+	else
+		wall_x = vars->player_x + vars->rinfo.perpwalldist * vars->rinfo.raydir_x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)(128));
     lineheight = (int)(IMG_HEIGHT / vars->rinfo.perpwalldist);
     drawstart = -lineheight / 2 + IMG_HEIGHT / 2;
-    if(drawstart < 0)
-		drawstart = 0;
     drawend = lineheight / 2 + IMG_HEIGHT / 2;
-    if(drawend >= IMG_HEIGHT)
-		drawend = IMG_HEIGHT - 1;
 	y = drawstart;
+	i = 0;
 	while (y < drawend)
 	{
-		my_mlx_pixel_put(&(vars->wimg), x, y, 0x00ffffff);
+		tex_y = (int)((double)i / (double)lineheight * (double)(128));
+		my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->texture), tex_x, tex_y));
+		i++;
 		y++;
 	}
 }
@@ -227,11 +236,11 @@ double  get_dist(t_vars *vars)
     if (vars->rinfo.raydir_x == 0)
         vars->rinfo.deltadist_x = 9999999;
     else
-        vars->rinfo.deltadist_x = fabs(sqrt((vars->rinfo.raydir_x * vars->rinfo.raydir_x) + (vars->rinfo.raydir_y * vars->rinfo.raydir_y)) / vars->rinfo.raydir_x);
+        vars->rinfo.deltadist_x = fabs(1 / vars->rinfo.raydir_x);
     if (vars->rinfo.raydir_y == 0)
         vars->rinfo.deltadist_y = 9999999;
     else
-       vars->rinfo.deltadist_y = fabs(sqrt((vars->rinfo.raydir_x * vars->rinfo.raydir_x) + (vars->rinfo.raydir_y * vars->rinfo.raydir_y)) / vars->rinfo.raydir_y);
+       vars->rinfo.deltadist_y = fabs(1 / vars->rinfo.raydir_y);
     vars->rinfo.hit = 0;
     if (vars->rinfo.raydir_x < 0)
     {
@@ -321,13 +330,11 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	//print_maps(vars.map, &vars);//
-	j = 0;
-	while (j++ < IMG_HEIGHT)
-	{
-		i = 0;
-		while (i++ < IMG_WIDTH)
-			my_mlx_pixel_put(&vars.img, i, j, (i << 16) + (j << 8) + 0);
-	}
+	vars.texture.img = mlx_xpm_file_to_image(vars.mlx, "pigsmall.xpm", &i, &j);
+	vars.texture.addr = mlx_get_data_addr(vars.texture.img,
+			&vars.texture.bits_per_pixel,
+			&vars.texture.line_length,
+			&vars.texture.endian);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);
