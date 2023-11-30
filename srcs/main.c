@@ -25,8 +25,8 @@ int	initialize_vars(t_vars *vars)
 	vars->plane_y = 0; /*camera plane of FOV 90*/
 	//added below
 	vars->map = NULL;
-	vars->player_x = 3.5;
-	vars->player_y = 3.5;
+	vars->player_x = 1.5;
+	vars->player_y = 1.5;
 	vars->players = 0;
 	vars->height = 0;
 	vars->width = 0;
@@ -99,6 +99,11 @@ void	rotate(t_vars *vars)
 	vars->plane_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
 	vars->plane_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
 	printf("current angle %f dir_x %f dir_y %f\n", vars->current_angle, vars->dir_x, vars->dir_y);
+	printf("plane x %f plane y %f\n", vars->plane_x, vars->plane_y);
+	vars->rinfo.raydir_x = vars->dir_x;
+	vars->rinfo.raydir_y = vars->dir_y;
+	get_dist(vars);
+	printf("distance :%f", vars->rinfo.perpwalldist);
 }
 
 void	move(t_vars *vars)
@@ -112,22 +117,22 @@ void	move(t_vars *vars)
 	}
 	if (vars->go_d)
 	{
-			vars->player_x -= MOVE_SPEED * vars->dir_x;
-			vars->player_y -= MOVE_SPEED * vars->dir_y;
+		vars->player_x -= MOVE_SPEED * vars->dir_x;
+		vars->player_y -= MOVE_SPEED * vars->dir_y;
 		printf("%f %f\n", vars->player_x, vars->player_y);
 		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 	if (vars->go_r)
 	{
-		vars->player_y += MOVE_SPEED * vars->dir_y;
-		vars->player_x -= MOVE_SPEED * vars->dir_x;
+		vars->player_x += MOVE_SPEED * vars->dir_y;
+		vars->player_y -= MOVE_SPEED * vars->dir_x;
 		printf("%f %f\n", vars->player_x, vars->player_y);
 		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 	if (vars->go_l)
 	{
-		vars->player_y -= MOVE_SPEED * vars->dir_y;
-		vars->player_x += MOVE_SPEED * vars->dir_x;
+		vars->player_x -= MOVE_SPEED * vars->dir_y;
+		vars->player_y += MOVE_SPEED * vars->dir_x;
 		printf("%f %f\n", vars->player_x, vars->player_y);
 		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
@@ -207,22 +212,21 @@ int	render_next_frame(t_vars *vars)
 
 double  get_dist(t_vars *vars)
 {
-
-    vars->rinfo.map_x = (int)vars->player_x;
-    vars->rinfo.map_y = (int)vars->player_y;
+	vars->rinfo.map_x = (int)vars->player_x;
+	vars->rinfo.map_y = (int)vars->player_y;
     if (vars->rinfo.raydir_x == 0)
-        vars->rinfo.deltadist_x = 1e30;
+        vars->rinfo.deltadist_x = 9999999;
     else
         vars->rinfo.deltadist_x = fabs(1 / vars->rinfo.raydir_x);
     if (vars->rinfo.raydir_y == 0)
-        vars->rinfo.deltadist_y = 1e30;
+        vars->rinfo.deltadist_y = 9999999;
     else
-       vars->rinfo. deltadist_y = fabs(1 / vars->rinfo.raydir_y);
+       vars->rinfo.deltadist_y = fabs(1 / vars->rinfo.raydir_y);
     vars->rinfo.hit = 0;
     if (vars->rinfo.raydir_x < 0)
     {
         vars->rinfo.step_x = -1;
-        vars->rinfo.sidedist_x = (vars->player_y - vars->rinfo.map_x) * vars->rinfo.deltadist_x;
+        vars->rinfo.sidedist_x = (vars->player_x - vars->rinfo.map_x) * vars->rinfo.deltadist_x;
     }
     else
     {
@@ -237,7 +241,7 @@ double  get_dist(t_vars *vars)
     else
     {
         vars->rinfo.step_y = 1;
-        vars->rinfo.sidedist_y = (vars->rinfo.map_y + 1.0 - vars->player_x) * vars->rinfo.deltadist_y;
+        vars->rinfo.sidedist_y = (vars->rinfo.map_y + 1.0 - vars->player_y) * vars->rinfo.deltadist_y;
     }
     while (vars->rinfo.hit == 0)
     {
@@ -251,9 +255,9 @@ double  get_dist(t_vars *vars)
         {
             vars->rinfo.sidedist_y += vars->rinfo.deltadist_y;
            vars->rinfo. map_y += vars->rinfo.step_y;
-            vars->rinfo.side = 1;
+        	vars->rinfo.side = 1;
         }
-        if (vars->map[vars->rinfo.map_y][vars->rinfo.map_x] > '0')
+        if (vars->map[vars->rinfo.map_y][vars->rinfo.map_x] == '1')
             vars->rinfo.hit = 1;
     }
     if(vars->rinfo.side == 0)
