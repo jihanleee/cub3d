@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/29 15:54:52 by maya             ###   ########.fr       */
+/*   Updated: 2023/11/30 00:26:40 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@
 #define XK_Right                         0xff53  /* Move right, right arrow */
 #define XK_Down                          0xff54  /* Move down, down arrow */
 
-# define IMG_WIDTH 256
-# define IMG_HEGIHT 256
-# define MOVE_SPEED 0.01
+# define IMG_WIDTH 720
+# define IMG_HEIGHT 480
+# define MOVE_SPEED 0.001
 # define ROT_SPEED 0.001
 
 typedef struct s_data //for image
@@ -73,11 +73,29 @@ typedef struct s_data //for image
 	int		endian;
 }				t_data;
 
+typedef struct s_rinfo
+{
+	int     map_x;
+    int     map_y;
+    double  sidedist_x;
+    double  sidedist_y;
+    double  deltadist_x;
+    double  deltadist_y;
+    double  perpwalldist;
+    int     step_x;
+    int     step_y;
+    int     hit;
+    int     side;
+	double	raydir_x;
+	double	raydir_y;
+}				t_rinfo;
+
 typedef struct s_vars //info
 {
 	t_xvar		*mlx;
 	t_win_list	*win;
 	t_data		img;
+	t_data		wimg;
 	bool		key_pressed;
 	char		*file;
 	char		**first_map;
@@ -100,6 +118,7 @@ typedef struct s_vars //info
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
+	t_rinfo		rinfo;
 }				t_vars;
 
 /* validate_file.c */
@@ -118,4 +137,7 @@ void	print_maps(char **map, t_vars *vars);
 /* flood_fill.c */
 int flood_fill(t_vars *vars);
 
+/*main.c*/
+double  get_dist(t_vars *vars);
+void	draw_line(t_vars *vars, int x);
 #endif
