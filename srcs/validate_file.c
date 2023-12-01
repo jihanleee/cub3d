@@ -134,7 +134,7 @@ void	add_to_map(t_vars *vars, int count)
 
 	height = count - 8;
 	vars->height = height;
-	vars->first_map = (char **)malloc(sizeof(char *) * (height + 1));
+	vars->first_map = (char **)ft_calloc(sizeof(char *), (height + 1));
 	if (!vars->first_map)
 	{
 		free(vars);

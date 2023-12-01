@@ -37,7 +37,7 @@ char	*get_map_line(char *str, t_vars *vars)
 	char	*new_string;
 	int		i;
 
-	new_string = (char *)malloc(sizeof(char) * (vars->width));
+	new_string = (char *)ft_calloc(sizeof(char), (vars->width));
 	if (!new_string)
 	{
 		free(new_string);
