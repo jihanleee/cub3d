@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/01 00:31:01 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/01 16:19:11 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_vars //info
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
+	unsigned int	f_colour;
+	unsigned int	c_colour;
 	t_rinfo		rinfo;
 }				t_vars;
 

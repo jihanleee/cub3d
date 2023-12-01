@@ -333,6 +333,8 @@ int	main(int argc, char **argv)
 	initialize_vars(&vars);
 	validate_file(&vars);
 	print_maps(vars.first_map, &vars);//
+	printf("f-colour: %u\n", vars.f_colour);
+	printf("c-colour: %u\n", vars.c_colour);
 	if (validate_map(&vars) == 1)
 	{
 		exit_error("ERROR - Invalid Map");

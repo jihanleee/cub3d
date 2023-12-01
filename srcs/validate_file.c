@@ -46,7 +46,7 @@ static int	line_first_word(char *str, int count)
 	return (0);
 }
 
-static int	fc_value(char **array, int count)
+static int	fc_value(char **array, int count, t_vars *vars)
 {
 	char	**rgb;
 	int		index;
@@ -70,6 +70,10 @@ static int	fc_value(char **array, int count)
 			return (1);
 		index++;
 	}
+	if (count == 5)
+		vars->f_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
+	else if (count == 6)
+		vars->c_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
 	return (0);
 }
 
@@ -97,7 +101,7 @@ static int	line_info(t_vars *vars, char *line, int count)
 		return (1);
 	}
 	else if (count == 5 || count == 6) //F and C value
-		if (fc_value(array, count) == 1)
+		if (fc_value(array, count, vars) == 1)
 			return (1);
 	return (0);
 }
