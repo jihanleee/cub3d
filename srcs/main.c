@@ -240,12 +240,19 @@ void	draw_line(t_vars *vars, int x)
 	drawend = lineheight / 2 + IMG_HEIGHT / 2;
 	if (drawend >= IMG_HEIGHT)
 		drawend = IMG_HEIGHT - 1;
-	y = drawstart;
-	while (y < drawend)
+	y = 0;
+	while (y < IMG_HEIGHT)
 	{
 		tex_y = (int)((double)i / (double)lineheight * (double)(128));
-		my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->tex[w_dir]), tex_x, tex_y));
-		i++;
+		if (y >= drawstart && y <= drawend)
+		{
+			my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->tex[w_dir]), tex_x, tex_y));
+			i++;
+		}
+		else if (y < IMG_HEIGHT / 2)
+			my_mlx_pixel_put(&(vars->wimg), x, y, vars->c_colour);
+		else
+			my_mlx_pixel_put(&(vars->wimg), x, y, vars->f_colour);
 		y++;
 	}
 }
