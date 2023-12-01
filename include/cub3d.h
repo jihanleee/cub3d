@@ -6,7 +6,7 @@
 /*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/01 16:19:11 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/01 16:54:01 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int		validate_map(t_vars *vars);
 void	exit_error(char *message);
 //void	print_maps(char **map);
 void	print_maps(char **map, t_vars *vars);
+int	get_array_size(char **array);
 
 /* flood_fill.c */
 int flood_fill(t_vars *vars);

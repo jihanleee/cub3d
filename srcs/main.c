@@ -10,6 +10,9 @@ int	initialize_vars(t_vars *vars)
 			&vars->img.bits_per_pixel,
 			&vars->img.line_length,
 			&vars->img.endian);
+	//vars->img.bits_per_pixel = 0;
+	//vars->img.line_length = 0;
+	//vars->img.endian = 0;
 	vars->go_u = 0;
 	vars->go_d = 0;
 	vars->go_l = 0;
@@ -30,6 +33,8 @@ int	initialize_vars(t_vars *vars)
 	vars->players = 0;
 	vars->height = 0;
 	vars->width = 0;
+	vars->f_colour = 0;
+	vars->c_colour = 0;
 	return (0);
 }
 
@@ -321,17 +326,50 @@ double  get_dist(t_vars *vars)
 	mlx_loop(vars.mlx);
 	return (0);
 } */
+
+void	save_texture(t_vars *vars)
+{
+	int		index;
+	char	*line;
+	char	**array;
+	int		fd;
+	int		i;
+	int		j;
+
+	index = 0;
+	fd = open(vars->file, O_RDONLY);
+	line = get_next_line(fd);
+	while (index < 4)
+	{
+		array = ft_split(line, ' ');
+		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, array[1], &i, &j);
+		printf("here\n");
+		printf("file: %s\n", array[1]);
+		vars->tex[index].addr = mlx_get_data_addr(&(vars->tex[index].img), \
+			&(vars->tex[index].bits_per_pixel), \
+			&(vars->tex[index].line_length), \
+			&(vars->tex[index].endian));
+		printf("here2\n");
+		free(array[1]);
+		free(array[0]);
+		free(array);
+		free(line);
+		line = get_next_line(fd);
+		index++;
+	}
+}	
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	int		i;
-	int		j;
+/* 	int		i;
+	int		j; */
 
 	if (argc != 2)
 		return (1);
 	vars.file = argv[1];
 	initialize_vars(&vars);
 	validate_file(&vars);
+	/* save_texture(&vars); */
 	print_maps(vars.first_map, &vars);//
 	printf("f-colour: %u\n", vars.f_colour);
 	printf("c-colour: %u\n", vars.c_colour);
@@ -341,7 +379,9 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	//print_maps(vars.map, &vars);//
-	vars.tex[0].img = mlx_xpm_file_to_image(vars.mlx, "texture_1.xpm", &i, &j);
+	save_texture(&vars);
+
+/* 	vars.tex[0].img = mlx_xpm_file_to_image(vars.mlx, "texture_1.xpm", &i, &j);
 	vars.tex[0].addr = mlx_get_data_addr(vars.tex[0].img,
 			&vars.tex[0].bits_per_pixel,
 			&vars.tex[0].line_length,
@@ -361,6 +401,8 @@ int	main(int argc, char **argv)
 			&vars.tex[3].bits_per_pixel,
 			&vars.tex[3].line_length,
 			&vars.tex[3].endian);
+ */
+
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);

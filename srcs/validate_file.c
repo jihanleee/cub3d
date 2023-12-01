@@ -87,14 +87,16 @@ static int	line_info(t_vars *vars, char *line, int count)
 	if (count >= 0 && count < 4)
 	{
 		//printf("%d: first word of line: %s\n", count, array[0]);
+		//if size of array is not 2, it returns an error
+		//if (get_array_size(array) != 2)
+		//	return (1);
 		if (line_first_word(array[0], count) == 1)
 			return (1);
-		/*
-		check when we add textures
+		//check when we add textures
+		/* printf("file: %s\n", array[1]);
 		fd = open(array[1], O_RDONLY);
 		if (fd == -1)
-			exit_error("ERROR - File Could Not Be Opened");
-		*/
+			exit_error("ERROR - File Could Not Be Opened"); */
 	}
 	else if ((count == 4 || count == 7) && line[0] != '\n')
 	{

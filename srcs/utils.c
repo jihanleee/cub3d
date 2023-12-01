@@ -28,3 +28,15 @@ void	print_maps(char **map, t_vars *vars)
 	}
 	printf("\n--------------------------------------------\n\n");
 }
+
+int	get_array_size(char **array)
+{
+	int	count;
+
+	while (array[count])
+	{
+		count++;
+	}
+	printf("array size: %d\n", count);
+	return (count);
+}
