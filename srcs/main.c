@@ -223,9 +223,16 @@ void	draw_line(t_vars *vars, int x)
 	tex_x = (int)(wall_x * (double)(128));
     lineheight = (int)(IMG_HEIGHT / vars->rinfo.perpwalldist);
     drawstart = -lineheight / 2 + IMG_HEIGHT / 2;
-    drawend = lineheight / 2 + IMG_HEIGHT / 2;
-	y = drawstart;
 	i = 0;
+	if (drawstart < 0)
+	{
+		i = abs(drawstart);
+		drawstart = 0;
+	}
+	drawend = lineheight / 2 + IMG_HEIGHT / 2;
+	if (drawend >= IMG_HEIGHT)
+		drawend = IMG_HEIGHT - 1;
+	y = drawstart;
 	while (y < drawend)
 	{
 		tex_y = (int)((double)i / (double)lineheight * (double)(128));
