@@ -347,7 +347,7 @@ void	save_texture(t_vars *vars)
 		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
 		printf("here\n");
 		printf("file: %s\n", file);
-		vars->tex[index].addr = mlx_get_data_addr(&(vars->tex[index].img), \
+		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
 			&(vars->tex[index].bits_per_pixel), \
 			&(vars->tex[index].line_length), \
 			&(vars->tex[index].endian));
