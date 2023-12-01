@@ -81,7 +81,8 @@ static int	fc_value(char **array, int count, t_vars *vars)
 static int	line_info(t_vars *vars, char *line, int count)
 {
 	char	**array;
-	//int		fd; //check when we add textures
+	char	*file;
+	int		fd; //check when we add textures
 
 	array = ft_split(line, ' ');
 	if (count >= 0 && count < 4)
@@ -93,10 +94,11 @@ static int	line_info(t_vars *vars, char *line, int count)
 		if (line_first_word(array[0], count) == 1)
 			return (1);
 		//check when we add textures
-		/* printf("file: %s\n", array[1]);
-		fd = open(array[1], O_RDONLY);
+		file = ft_strtrim(array[1], "\n");
+		printf("str: %s and file: %s\n", array[1], file);
+		fd = open(file, O_RDONLY);
 		if (fd == -1)
-			exit_error("ERROR - File Could Not Be Opened"); */
+			exit_error("ERROR - File Could Not Be Opened");
 	}
 	else if ((count == 4 || count == 7) && line[0] != '\n')
 	{

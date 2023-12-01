@@ -331,6 +331,7 @@ void	save_texture(t_vars *vars)
 {
 	int		index;
 	char	*line;
+	char	*file;
 	char	**array;
 	int		fd;
 	int		i;
@@ -342,9 +343,10 @@ void	save_texture(t_vars *vars)
 	while (index < 4)
 	{
 		array = ft_split(line, ' ');
-		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, array[1], &i, &j);
+		file = file = ft_strtrim(array[1], "\n");
+		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
 		printf("here\n");
-		printf("file: %s\n", array[1]);
+		printf("file: %s\n", file);
 		vars->tex[index].addr = mlx_get_data_addr(&(vars->tex[index].img), \
 			&(vars->tex[index].bits_per_pixel), \
 			&(vars->tex[index].line_length), \
