@@ -123,44 +123,33 @@ void	rotate(t_vars *vars)
 	printf("distance :%f", vars->rinfo.perpwalldist);
 }
 
+void	apply_move(t_vars *vars, double delta_x, double delta_y)
+{
+	int current_x_index;
+	int	current_y_index;
+	int	next_x_index;
+	int next_y_index;
+
+	current_x_index = (int)vars->player_x;
+	current_y_index = (int)vars->player_y;
+	next_x_index = (int)(vars->player_x + delta_x);
+	next_y_index = (int)(vars->player_y + delta_y);
+	if (vars->map[current_y_index][next_x_index] != '1')
+		vars->player_x += delta_x;
+	if (vars->map[next_y_index][current_x_index] != '1')
+		vars->player_y += delta_y;
+}
+
 void	move(t_vars *vars)
 {
 	if (vars->go_u)
-	{
-		if (vars->map[(int)(vars->player_y + 0.1 * vars->dir_y)]\
-					[(int)(vars->player_x + 0.1 * vars->dir_x)] == '1')
-			return ;
-		vars->player_x += MOVE_SPEED * vars->dir_x;
-		vars->player_y += MOVE_SPEED * vars->dir_y;
-		printf("%f %f\n", vars->player_x, vars->player_y);
-	}
+		apply_move(vars, MOVE_SPEED * vars->dir_x, MOVE_SPEED * vars->dir_y);
 	if (vars->go_d)
-	{
-		if (vars->map[(int)(vars->player_y - 0.1 * vars->dir_y)]\
-					[(int)(vars->player_x - 0.1 * vars->dir_x)] == '1')
-			return ;
-		vars->player_x -= MOVE_SPEED * vars->dir_x;
-		vars->player_y -= MOVE_SPEED * vars->dir_y;
-		printf("%f %f\n", vars->player_x, vars->player_y);
-	}
+		apply_move(vars, -MOVE_SPEED * vars->dir_x, -MOVE_SPEED * vars->dir_y);
 	if (vars->go_r)
-	{
-		if (vars->map[(int)(vars->player_y - 0.1 * vars->dir_x)]\
-					[(int)(vars->player_x + 0.1 * vars->dir_y)] == '1')
-			return ;
-		vars->player_x += MOVE_SPEED * vars->dir_y;
-		vars->player_y -= MOVE_SPEED * vars->dir_x;
-		printf("%f %f\n", vars->player_x, vars->player_y);
-	}
+		apply_move(vars, MOVE_SPEED * vars->dir_y, -MOVE_SPEED * vars->dir_x);
 	if (vars->go_l)
-	{
-		if (vars->map[(int)(vars->player_y + 0.1 * vars->dir_x)]\
-				[(int)(vars->player_x - 0.1 * vars->dir_y)] == '1')
-			return ;
-		vars->player_x -= MOVE_SPEED * vars->dir_y;
-		vars->player_y += MOVE_SPEED * vars->dir_x;
-		printf("%f %f\n", vars->player_x, vars->player_y);
-	}
+		apply_move(vars, -MOVE_SPEED * vars->dir_y, MOVE_SPEED * vars->dir_x);
 }
 
 int	keyrelease(int keycode, t_vars *vars)
