@@ -27,6 +27,7 @@ int	initialize_vars(t_vars *vars)
 	vars->plane_x = -0.66;
 	vars->plane_y = 0; /*camera plane of FOV 90*/
 	//added below
+	vars->first_map = NULL;
 	vars->map = NULL;
 	vars->player_x = 1.5;
 	vars->player_y = 1.5;
@@ -45,6 +46,7 @@ int	close_window(t_vars *vars)
 	mlx_destroy_image(vars->mlx, vars->img.img);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
+	//free_map(vars->first_map, vars->height - 1);
 	free(vars->mlx);
 	exit(0);
 	return (0);
@@ -367,20 +369,17 @@ void	save_texture(t_vars *vars)
 		array = ft_split(line, ' ');
 		file = file = ft_strtrim(array[1], "\n");
 		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
-		printf("here\n");
-		printf("file: %s\n", file);
 		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
 			&(vars->tex[index].bits_per_pixel), \
 			&(vars->tex[index].line_length), \
 			&(vars->tex[index].endian));
-		printf("here2\n");
-		free(array[1]);
-		free(array[0]);
-		free(array);
+		free_array(array);
 		free(line);
+		free(file);
 		line = get_next_line(fd);
 		index++;
 	}
+	free(line);
 }	
 int	main(int argc, char **argv)
 {
@@ -404,29 +403,6 @@ int	main(int argc, char **argv)
 	}
 	//print_maps(vars.map, &vars);//
 	save_texture(&vars);
-
-/* 	vars.tex[0].img = mlx_xpm_file_to_image(vars.mlx, "texture_1.xpm", &i, &j);
-	vars.tex[0].addr = mlx_get_data_addr(vars.tex[0].img,
-			&vars.tex[0].bits_per_pixel,
-			&vars.tex[0].line_length,
-			&vars.tex[0].endian);
-	vars.tex[1].img = mlx_xpm_file_to_image(vars.mlx, "texture_2.xpm", &i, &j);
-	vars.tex[1].addr = mlx_get_data_addr(vars.tex[1].img,
-			&vars.tex[1].bits_per_pixel,
-			&vars.tex[1].line_length,
-			&vars.tex[1].endian);
-	vars.tex[2].img = mlx_xpm_file_to_image(vars.mlx, "texture_3.xpm", &i, &j);
-	vars.tex[2].addr = mlx_get_data_addr(vars.tex[2].img,
-			&vars.tex[2].bits_per_pixel,
-			&vars.tex[2].line_length,
-			&vars.tex[2].endian);
-	vars.tex[3].img = mlx_xpm_file_to_image(vars.mlx, "texture_4.xpm", &i, &j);
-	vars.tex[3].addr = mlx_get_data_addr(vars.tex[3].img,
-			&vars.tex[3].bits_per_pixel,
-			&vars.tex[3].line_length,
-			&vars.tex[3].endian);
- */
-
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);

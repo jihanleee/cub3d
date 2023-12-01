@@ -74,6 +74,7 @@ static int	fc_value(char **array, int count, t_vars *vars)
 		vars->f_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
 	else if (count == 6)
 		vars->c_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
+	free_array(rgb);
 	return (0);
 }
 
@@ -92,21 +93,33 @@ static int	line_info(t_vars *vars, char *line, int count)
 		//if (get_array_size(array) != 2)
 		//	return (1);
 		if (line_first_word(array[0], count) == 1)
+		{
+			free_array(array);
 			return (1);
+		}
 		//check when we add textures
 		file = ft_strtrim(array[1], "\n");
 		printf("str: %s and file: %s\n", array[1], file);
 		fd = open(file, O_RDONLY);
+		free(file);
 		if (fd == -1)
+		{
+			free_array(array);
 			exit_error("ERROR - File Could Not Be Opened");
+		}
 	}
 	else if ((count == 4 || count == 7) && line[0] != '\n')
 	{
+		free_array(array);
 		return (1);
 	}
 	else if (count == 5 || count == 6) //F and C value
 		if (fc_value(array, count, vars) == 1)
+		{
+			free_array(array);
 			return (1);
+		}
+	free_array(array);
 	return (0);
 }
 
@@ -147,13 +160,16 @@ void	add_to_map(t_vars *vars, int count)
 		vars->first_map[map_line] = (char *)malloc(sizeof(char) * (length + 1));
 		if (!vars->first_map[map_line])
 		{
-			//free_map(vars->first_map, map_line);
+			//free_map(vars->first_map);
 			exit_error("ERROR - Malloc Error");
 		}
-		vars->first_map[map_line] = line; //strdup?
+		/* vars->first_map[map_line] = line; //strdup? */
+		vars->first_map[map_line] = ft_strdup(line);
+		free(line);
 		line = get_next_line(fd);
 		map_line++;
 	}
+	//free(line);
 	return (0);
 }
 
@@ -180,8 +196,10 @@ static int	check_lines(t_vars *vars)
 	while (line != NULL)
 	{
 		count++;
+		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	add_to_map(vars, count);
 	return (0);
 }

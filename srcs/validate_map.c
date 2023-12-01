@@ -70,7 +70,7 @@ void	parse_map(t_vars *vars)
 	vars->map = (char **)malloc(sizeof(char *) * (vars->height + 1));
 	if (!vars->map)
 	{
-		free(vars);
+		free(vars->map);
 		exit_error("ERROR - Map Allocation Failed");
 	}
 	count = 0;
@@ -148,8 +148,5 @@ int	validate_map(t_vars *vars)
 	//check if the borders are all walls
 	if (check_borders(vars) == 1)
 		return (1);
-	//flood fill ==> check if player can reach X
-	//if (flood_fill(vars) ==1 )
-	//	return (1);
 	return (0);
 }
