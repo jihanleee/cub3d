@@ -66,5 +66,5 @@ void	free_map(char **map, int max)
 		i++;
 	}
 	free(map);
-	//array = NULL;//
+	//map = NULL;//
 }

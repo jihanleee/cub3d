@@ -47,6 +47,7 @@ int	close_window(t_vars *vars)
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);/* 
 	free_map(vars->first_map, vars->height - 1); */
+	free_map(vars->first_map, vars->height);
 	free(vars->mlx);
 	exit(0);
 	return (0);
@@ -382,8 +383,8 @@ int	main(int argc, char **argv)
 	initialize_vars(&vars);
 	validate_file(&vars);
 	/* save_texture(&vars); */
-	free_map(vars.first_map, vars.height);
-	/* print_maps(vars.first_map, &vars);//
+	//free_map(vars.first_map, vars.height);
+	print_maps(vars.first_map, &vars);//
 	printf("f-colour: %u\n", vars.f_colour);
 	printf("c-colour: %u\n", vars.c_colour);
 	if (validate_map(&vars) == 1)
@@ -398,6 +399,6 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);
 	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
 	mlx_hook(vars.win, 03, 1L << 1, keyrelease, &vars);
-	mlx_loop(vars.mlx); */
+	mlx_loop(vars.mlx);
 	return (0);
 }

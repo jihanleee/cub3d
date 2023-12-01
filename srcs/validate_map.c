@@ -67,7 +67,7 @@ void	parse_map(t_vars *vars)
 	int	count;
 	char	*line;
 
-	vars->map = (char **)malloc(sizeof(char *) * (vars->height + 1));
+	vars->map = (char **)ft_calloc(sizeof(char *), (vars->height + 1));
 	if (!vars->map)
 	{
 		free(vars->map);

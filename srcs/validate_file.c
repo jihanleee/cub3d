@@ -157,12 +157,12 @@ void	add_to_map(t_vars *vars, int count)
 		length = ft_strlen(line);
 		if (length > vars->width)
 			vars->width = length;
-		vars->first_map[map_line] = (char *)ft_calloc(sizeof(char), (length + 1));
+		/* vars->first_map[map_line] = (char *)ft_calloc(sizeof(char), (length + 1));
 		if (!vars->first_map[map_line])
 		{
 			//free_map(vars->first_map);
 			exit_error("ERROR - Malloc Error");
-		}
+		} */
 		/* vars->first_map[map_line] = line; //strdup? */
 		vars->first_map[map_line] = ft_strdup(line);
 		free(line);
