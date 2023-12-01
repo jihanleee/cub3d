@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/01 16:54:01 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/01 19:24:28 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@
 
 # define IMG_WIDTH 720
 # define IMG_HEIGHT 480
-# define MOVE_SPEED 0.001
-# define ROT_SPEED 0.001
+# define MOVE_SPEED 0.01
+# define ROT_SPEED 0.01
 
 typedef struct s_data //for image
 {

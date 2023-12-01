@@ -125,31 +125,39 @@ void	move(t_vars *vars)
 {
 	if (vars->go_u)
 	{
+		if (vars->map[(int)(vars->player_y + 0.1 * vars->dir_y)]\
+					[(int)(vars->player_x + 0.1 * vars->dir_x)] == '1')
+			return ;
 		vars->player_x += MOVE_SPEED * vars->dir_x;
 		vars->player_y += MOVE_SPEED * vars->dir_y;
 		printf("%f %f\n", vars->player_x, vars->player_y);
-		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 	if (vars->go_d)
 	{
+		if (vars->map[(int)(vars->player_y - 0.1 * vars->dir_y)]\
+					[(int)(vars->player_x - 0.1 * vars->dir_x)] == '1')
+			return ;
 		vars->player_x -= MOVE_SPEED * vars->dir_x;
 		vars->player_y -= MOVE_SPEED * vars->dir_y;
 		printf("%f %f\n", vars->player_x, vars->player_y);
-		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 	if (vars->go_r)
 	{
+		if (vars->map[(int)(vars->player_y - 0.1 * vars->dir_x)]\
+					[(int)(vars->player_x + 0.1 * vars->dir_y)] == '1')
+			return ;
 		vars->player_x += MOVE_SPEED * vars->dir_y;
 		vars->player_y -= MOVE_SPEED * vars->dir_x;
 		printf("%f %f\n", vars->player_x, vars->player_y);
-		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 	if (vars->go_l)
 	{
+		if (vars->map[(int)(vars->player_y + 0.1 * vars->dir_x)]\
+				[(int)(vars->player_x - 0.1 * vars->dir_y)] == '1')
+			return ;
 		vars->player_x -= MOVE_SPEED * vars->dir_y;
 		vars->player_y += MOVE_SPEED * vars->dir_x;
 		printf("%f %f\n", vars->player_x, vars->player_y);
-		my_mlx_pixel_put(&(vars->img), vars->player_x, vars->player_y, 0x00ffffff);
 	}
 }
 
