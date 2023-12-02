@@ -46,6 +46,21 @@ static int	line_first_word(char *str, int count)
 	return (0);
 }
 
+int	check_fc_char(char input, int count)
+{
+	if (count == 5)
+	{
+		if (ft_strncmp("F", (char *)input, 1) != 0)
+			return (1);
+	}
+	else if (count == 6)
+	{
+		if (ft_strncmp("C", (char *)input, 1) != 0)
+			return (1);
+	}
+	return (0);
+}
+
 static int	fc_value(char **array, int count, t_vars *vars)
 {
 	char	**rgb;
@@ -59,6 +74,8 @@ static int	fc_value(char **array, int count, t_vars *vars)
 		result = ft_strncmp("F", array[0], 1);
 	else if (count == 6)
 		result = ft_strncmp("C", array[0], 1);
+	/* if (check_fc_char(array[0], count) != 0)
+		return (1); */
 	if (result != 0)
 		return (1);
 	rgb = ft_split(array[1], ',');
@@ -88,24 +105,19 @@ static int	line_info(t_vars *vars, char *line, int count)
 	array = ft_split(line, ' ');
 	if (count >= 0 && count < 4)
 	{
-		//printf("%d: first word of line: %s\n", count, array[0]);
-		//if size of array is not 2, it returns an error
-		//if (get_array_size(array) != 2)
-		//	return (1);
 		if (line_first_word(array[0], count) == 1)
 		{
 			free_array(array);
 			return (1);
 		}
-		//check when we add textures
 		file = ft_strtrim(array[1], "\n");
-		printf("str: %s and file: %s\n", array[1], file);
 		fd = open(file, O_RDONLY);
 		free(file);
 		if (fd == -1)
 		{
 			free_array(array);
-			exit_error("ERROR - File Could Not Be Opened");
+			//exit_error("ERROR - File Could Not Be Opened");
+			return (1);
 		}
 	}
 	else if ((count == 4 || count == 7) && line[0] != '\n')
@@ -157,19 +169,11 @@ void	add_to_map(t_vars *vars, int count)
 		length = ft_strlen(line);
 		if (length > vars->width)
 			vars->width = length;
-		/* vars->first_map[map_line] = (char *)ft_calloc(sizeof(char), (length + 1));
-		if (!vars->first_map[map_line])
-		{
-			//free_map(vars->first_map);
-			exit_error("ERROR - Malloc Error");
-		} */
-		/* vars->first_map[map_line] = line; //strdup? */
 		vars->first_map[map_line] = ft_strdup(line);
 		free(line);
 		line = get_next_line(fd);
 		map_line++;
 	}
-	//free(line);
 	return (0);
 }
 
@@ -177,31 +181,44 @@ static int	check_lines(t_vars *vars)
 {
 	char	*line;
 	int		count;
+	int		result;
 	int		fd;
 
 	fd = open(vars->file, O_RDONLY);
-	//if (fd == -1)
-	//	exit_error("ERROR - File Could Not Be Opened");
 	count = 0;
+	result = 0;
 	line = get_next_line(fd);
-	while (line != NULL  && count < 8)
+	while (line)
 	{
-		//printf("%d: %s ==> %d\n", count, line, line[0]);
-		if (line_info(vars, line, count) == 1)
-			return (1);
+		printf("count: %d, line: %s\n", count, line);
+		if (count < 8)
+		{
+			printf("line_info result: %d\n", line_info(vars, line, count));
+			if (line_info(vars, line, count) == 1)
+			{
+				/* free(line);
+				return (1); */
+				result = 1;
+			}
+		}
 		count++;
 		free(line);
 		line = get_next_line(fd);
 	}
-	while (line != NULL)
+	/* while (line != NULL)
 	{
 		count++;
 		free(line);
 		line = get_next_line(fd);
+	} */
+	if (result == 1)
+		return (1);
+	else
+	{
+		free(line);
+		add_to_map(vars, count);
+		return (0);
 	}
-	free(line);
-	add_to_map(vars, count);
-	return (0);
 }
 
 void	validate_file(t_vars *vars)

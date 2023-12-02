@@ -371,10 +371,10 @@ int	save_texture(t_vars *vars)
 				&(vars->tex[index].bits_per_pixel), \
 				&(vars->tex[index].line_length), \
 				&(vars->tex[index].endian));
-			if (array[2] != 0)
+			if (array[2] != 0) //array[2]
 			{
 				exit_error("ERROR - Invalid Line in File");
-				return (1);
+				//return (1);
 			}
 			free_array(array);
 			free(file);

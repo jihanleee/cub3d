@@ -6,7 +6,7 @@
 /*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/01 23:48:35 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/02 23:52:02 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_vars //info
 /* validate_file.c */
 void	add_to_map(t_vars *vars, int count);
 void	validate_file(t_vars *vars);
+int	check_fc_char(char input, int count);
 
 /* validate_map.c */
 void	parse_map(t_vars *vars);
