@@ -359,24 +359,27 @@ int	save_texture(t_vars *vars)
 	index = 0;
 	fd = open(vars->file, O_RDONLY);
 	line = get_next_line(fd);
-	while (index < 4)
+	while (line)
 	{
-		array = ft_split(line, ' ');
-		file = ft_strtrim(array[1], "\n");
-		ft_printf("file %s\n", file);
-		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
-		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
-			&(vars->tex[index].bits_per_pixel), \
-			&(vars->tex[index].line_length), \
-			&(vars->tex[index].endian));
-		if (array[2] != 0)
+		if (index < 4)
 		{
-			exit_error("ERROR - Invalid Line in File");
-			return (1);
+			array = ft_split(line, ' ');
+			file = ft_strtrim(array[1], "\n");
+			ft_printf("file %s\n", file);
+			vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
+			vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
+				&(vars->tex[index].bits_per_pixel), \
+				&(vars->tex[index].line_length), \
+				&(vars->tex[index].endian));
+			if (array[2] != 0)
+			{
+				exit_error("ERROR - Invalid Line in File");
+				return (1);
+			}
+			free_array(array);
+			free(file);
 		}
-		free_array(array);
 		free(line);
-		free(file);
 		line = get_next_line(fd);
 		index++;
 	}
