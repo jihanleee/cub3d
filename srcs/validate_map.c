@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include "cub3d.h"
 
+
+void	save_player_info(t_vars *vars, int x, int y)
+{
+	vars->players = vars->players + 1;
+	vars->start_x = x;
+	vars->start_y = y;
+}
 static int	map_content(t_vars *vars)
 {
 	char	**map;
@@ -16,11 +23,7 @@ static int	map_content(t_vars *vars)
 		while (map[y][x])
 		{
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
-			{
-				vars->players = vars->players + 1;
-				vars->start_x = x;
-				vars->start_y = y;
-			}
+				save_player_info(vars, x, y);
 			else if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != ' ' && map[y][x] != '\n')
 				return (1);
 			x++;
@@ -39,26 +42,22 @@ char	*get_map_line(char *str, t_vars *vars)
 
 	new_string = (char *)ft_calloc(sizeof(char), (vars->width));
 	if (!new_string)
-	{
 		free(new_string);
-		//error message?
-	}
 	i = 0;
 	while (str[i] && str[i] != '\n')
 	{
 		if (str[i] == ' ')
-			new_string[i] = '1'; //'X'
+			new_string[i] = '1';
 		else
 			new_string[i] = str[i];
 		i++;
 	}
 	while (i < vars->width - 1)
 	{
-		new_string[i] = '1'; //'X'
+		new_string[i] = '1';
 		i++;
 	}
 	new_string[i] = '\0';
-	//printf("new line: %s\n", new_string);
 	return (new_string);
 }
 
@@ -138,14 +137,10 @@ int	check_borders(t_vars *vars)
 
 int	validate_map(t_vars *vars)
 {
-	//check if all characters are valid
-	//0, 1, N, S, E, or W
 	if (map_content(vars) == 1)
 		return (1);
-	//change spaces to X
 	parse_map(vars);
 	print_maps(vars->map, vars);
-	//check if the borders are all walls
 	if (check_borders(vars) == 1)
 		return (1);
 	return (0);
