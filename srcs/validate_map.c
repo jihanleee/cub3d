@@ -9,7 +9,7 @@ void	save_player_info(t_vars *vars, int x, int y)
 	vars->start_x = x;
 	vars->start_y = y;
 }
-static int	map_content(t_vars *vars)
+int	map_content(t_vars *vars)
 {
 	char	**map;
 	int		x;
@@ -80,60 +80,6 @@ void	parse_map(t_vars *vars)
 		count++;
 	}
 }
-
-int	vertical_walls(t_vars *vars)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < vars->height)
-	{
-		if (vars->map[i][0] != '1')
-			return (1);
-		i++;
-	}
-	j = 0;
-	while (j < vars->height)
-	{
-		if (vars->map[j][vars->width - 2] != '1')
-			return (1);
-		j++;
-	}
-	return (0);
-}
-
-int	horizontal_walls(t_vars *vars)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (vars->map[0][i])
-	{
-		if (vars->map[0][i] != '1')
-			return (1);
-		i++;
-	}
-	j = 0;
-	while (vars->map[vars->height - 1][j])
-	{
-		if (vars->map[vars->height - 1][j] != '1')
-		{
-			return (1);
-		}
-		j++;
-	}
-	return (0);
-}
-
-int	check_borders(t_vars *vars)
-{
-	if (vertical_walls(vars) == 1 || horizontal_walls(vars) == 1)
-		return (1);
-	return (0);
-}
-
 
 int	validate_map(t_vars *vars)
 {

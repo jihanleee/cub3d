@@ -52,7 +52,6 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
-	//array = NULL;//
 }
 
 void	free_map(char **map, int max)
@@ -66,20 +65,4 @@ void	free_map(char **map, int max)
 		i++;
 	}
 	free(map);
-	//map = NULL;//
 }
-
-/* void	free_textures(t_vars *vars)
-{
-	int	index;
-
-	index = 0;
-	while (index < 4)
-	{
-		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
-			vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
-				&(vars->tex[index].bits_per_pixel), \
-				&(vars->tex[index].line_length), \
-				&(vars->tex[index].endian));
-	}
-} */

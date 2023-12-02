@@ -13,10 +13,10 @@ DIR_LIBFT = ./libft/
 LIBFT = ./libft/libft.a
 
 SRCS =	./srcs/main.c \
-		./srcs/utils.c \
 		./srcs/validate_file.c \
+		./srcs/check_lines.c \
 		./srcs/validate_map.c \
-		./srcs/flood_fill.c \
+		./srcs/check_borders.c ./srcs/utils.c \
 		./srcs/draw_line.c \
 		./srcs/get_dist.c \
 		./srcs/move_rotate.c \
