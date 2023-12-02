@@ -48,6 +48,10 @@ int	initialize_vars(t_vars *vars)
 on the top-right corner is clicked.*/
 int	close_window(t_vars *vars)
 {
+	mlx_destroy_image(vars->mlx, vars->tex[0].img);
+	mlx_destroy_image(vars->mlx, vars->tex[1].img);
+	mlx_destroy_image(vars->mlx, vars->tex[2].img);
+	mlx_destroy_image(vars->mlx, vars->tex[3].img);
 	mlx_destroy_image(vars->mlx, vars->img.img);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);/* 
@@ -84,7 +88,6 @@ int	keypress(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
 		close_window(vars);
-	ft_printf("keypress %d\n", keycode);
 	if (keycode == XK_w)
 		vars->go_u = 1;
 	else if (keycode == XK_s)
@@ -123,12 +126,8 @@ void	rotate(t_vars *vars)
 	y = 0;
 	vars->plane_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
 	vars->plane_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
-	printf("current angle %f dir_x %f dir_y %f\n", vars->current_angle, vars->dir_x, vars->dir_y);
-	printf("plane x %f plane y %f\n", vars->plane_x, vars->plane_y);
 	vars->rinfo.raydir_x = vars->dir_x;
 	vars->rinfo.raydir_y = vars->dir_y;
-	get_dist(vars);
-	printf("distance :%f", vars->rinfo.perpwalldist);
 }
 
 void	apply_move(t_vars *vars, double delta_x, double delta_y)
@@ -162,7 +161,6 @@ void	move(t_vars *vars)
 
 int	keyrelease(int keycode, t_vars *vars)
 {
-	ft_printf("keyrelease\n");
 	if (keycode == XK_w)
 		vars->go_u = 0;
 	else if (keycode == XK_s)
@@ -364,7 +362,8 @@ int	save_texture(t_vars *vars)
 	while (index < 4)
 	{
 		array = ft_split(line, ' ');
-		file = file = ft_strtrim(array[1], "\n");
+		file = ft_strtrim(array[1], "\n");
+		ft_printf("file %s\n", file);
 		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
 		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
 			&(vars->tex[index].bits_per_pixel), \
