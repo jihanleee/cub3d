@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "cub3d.h"
 
-int	initialize_vars(t_vars *vars)
+int	initialize_mlx(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, IMG_WIDTH, IMG_HEIGHT, "cub3d");
@@ -10,6 +10,11 @@ int	initialize_vars(t_vars *vars)
 			&vars->img.bits_per_pixel,
 			&vars->img.line_length,
 			&vars->img.endian);
+	return (0);
+}
+
+int	initialize_vars(t_vars *vars)
+{
 	//vars->img.bits_per_pixel = 0;
 	//vars->img.line_length = 0;
 	//vars->img.endian = 0;
@@ -401,6 +406,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	//print_maps(vars.map, &vars);//
+	initialize_mlx(&vars);
 	save_texture(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
