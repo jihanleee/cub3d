@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:37:43 by jihalee           #+#    #+#             */
-/*   Updated: 2023/05/08 14:04:14 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/02 11:48:33 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 static void	mallocfail(char **result, int i)
 {
@@ -99,7 +100,7 @@ char	**ft_split(char const *s, char c)
 	if (s == 0)
 		return (0);
 	n_words = count_words(s, c);
-	result = (char **)malloc(sizeof (char *) * (n_words + 1));
+	result = (char **)ft_calloc(sizeof (char *), (n_words + 1));
 	if (result == 0)
 		return (NULL);
 	malloc_words(result, s, c, n_words);
