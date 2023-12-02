@@ -3,11 +3,20 @@
 #include "cub3d.h"
 
 
-void	save_player_info(t_vars *vars, int x, int y)
+void	save_player_info(t_vars *vars, char c, int x, int y)
 {
 	vars->players = vars->players + 1;
 	vars->start_x = x;
 	vars->start_y = y;
+	if (c == 'N')
+		vars->player_dir = NORTH;
+	else if (c == 'S')
+		vars->player_dir = SOUTH;
+	else if (c == 'E')
+		vars->player_dir = WEST;
+	else if (c == 'W')
+		vars->player_dir = EAST;
+	printf("direction: %d\n", vars->player_dir);
 }
 int	map_content(t_vars *vars)
 {
@@ -23,7 +32,7 @@ int	map_content(t_vars *vars)
 		while (map[y][x])
 		{
 			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
-				save_player_info(vars, x, y);
+				save_player_info(vars, map[y][x], x, y);
 			else if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != ' ' && map[y][x] != '\n')
 				return (1);
 			x++;

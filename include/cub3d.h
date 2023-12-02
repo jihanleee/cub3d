@@ -6,7 +6,7 @@
 /*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/03 02:18:19 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/03 02:39:08 by maya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@
 # define IMG_HEIGHT 480
 # define MOVE_SPEED 0.01
 # define ROT_SPEED 0.01
+
+# define NORTH 0
+# define SOUTH 1
+# define WEST 2
+# define EAST 3
 
 typedef struct s_data
 {
@@ -121,6 +126,7 @@ typedef struct s_vars
 	double		player_y;
 	int			start_x;
 	int			start_y;
+	int			player_dir;
 	double		dir_x;
 	double		dir_y;
 	double		plane_x;
@@ -172,7 +178,7 @@ void			add_to_map(t_vars *vars, int count);
 int				check_lines(t_vars *vars);
 
 /* validate_map.c */
-void			save_player_info(t_vars *vars, int x, int y);
+void	save_player_info(t_vars *vars, char c, int x, int y);
 int				map_content(t_vars *vars);
 char			*get_map_line(char *str, t_vars *vars);
 void			parse_map(t_vars *vars);
