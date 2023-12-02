@@ -47,7 +47,9 @@ int	close_window(t_vars *vars)
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);/* 
 	free_map(vars->first_map, vars->height - 1); */
+	//free_textures(&vars);
 	free_map(vars->first_map, vars->height);
+	free_map(vars->map, vars->height);
 	free(vars->mlx);
 	exit(0);
 	return (0);
@@ -341,7 +343,7 @@ double  get_dist(t_vars *vars)
 	return (0);
 } */
 
-void	save_texture(t_vars *vars)
+int	save_texture(t_vars *vars)
 {
 	int		index;
 	char	*line;
@@ -363,6 +365,11 @@ void	save_texture(t_vars *vars)
 			&(vars->tex[index].bits_per_pixel), \
 			&(vars->tex[index].line_length), \
 			&(vars->tex[index].endian));
+		if (array[2] != 0)
+		{
+			exit_error("ERROR - Invalid Line in File");
+			return (1);
+		}
 		free_array(array);
 		free(line);
 		free(file);
@@ -370,6 +377,7 @@ void	save_texture(t_vars *vars)
 		index++;
 	}
 	free(line);
+	return (0);
 }	
 int	main(int argc, char **argv)
 {
