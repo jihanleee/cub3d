@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   check_lines.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:23:20 by maya              #+#    #+#             */
-/*   Updated: 2023/12/03 02:24:13 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/03 02:51:09 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include <stdio.h>
 #include "cub3d.h"
@@ -48,7 +46,6 @@ void	malloc_map(t_vars *vars, int count)
 	vars->first_map = (char **)ft_calloc(sizeof(char *), (vars->height + 1));
 	if (!vars->first_map)
 	{
-		free(vars);
 		exit_error("ERROR - Map Allocation Failed");
 	}
 }
