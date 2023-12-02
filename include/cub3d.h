@@ -3,13 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/03 00:42:54 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/02 23:09:03 by jihalee          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
-
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
@@ -88,6 +86,14 @@ typedef struct s_rinfo
     int     side;
 	double	raydir_x;
 	double	raydir_y;
+	int		lineheight;
+	int		drawstart;
+	int		drawend;
+	int		y;
+	int		drawn_len;
+	double	wall_x;
+	int		tex_x;
+	int		tex_y;
 }				t_rinfo;
 
 typedef struct s_vars //info
@@ -145,6 +151,33 @@ void	free_map(char **map, int max);
 int flood_fill(t_vars *vars);
 
 /*main.c*/
-double  get_dist(t_vars *vars);
+void 	get_dist(t_vars *vars);
+
+/*draw_line.c*/
 void	draw_line(t_vars *vars, int x);
+
+/*input.c*/
+int		keypress(int keycode, t_vars *vars);
+int		keyrelease(int keycode, t_vars *vars);
+
+/*get_dist.c*/
+void  	get_dist(t_vars *vars);
+
+/*move_rotate.c*/
+void	move(t_vars *vars);
+void	rotate(t_vars *vars);
+
+/*mlx_utils*/
+int				initialize_mlx(t_vars *vars);
+void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
+unsigned int	pixel_color(t_data *data, int x, int y);
+
+/*raycasting.c*/
+void	raycasting(t_vars *vars);
+
+
+int		close_window(t_vars *vars);
+
+void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
+unsigned int	pixel_color(t_data *data, int x, int y);
 #endif

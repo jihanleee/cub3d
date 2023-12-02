@@ -1,23 +1,8 @@
 #include <stdio.h>
 #include "cub3d.h"
 
-int	initialize_mlx(t_vars *vars)
-{
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, IMG_WIDTH, IMG_HEIGHT, "cub3d");
-	vars->img.img = mlx_new_image(vars->mlx, IMG_WIDTH, IMG_HEIGHT);
-	vars->img.addr = mlx_get_data_addr(vars->img.img,
-			&vars->img.bits_per_pixel,
-			&vars->img.line_length,
-			&vars->img.endian);
-	return (0);
-}
-
 int	initialize_vars(t_vars *vars)
 {
-	//vars->img.bits_per_pixel = 0;
-	//vars->img.line_length = 0;
-	//vars->img.endian = 0;
 	vars->go_u = 0;
 	vars->go_d = 0;
 	vars->go_l = 0;
@@ -31,7 +16,6 @@ int	initialize_vars(t_vars *vars)
 	vars->dir_y = -1; /*initial direction*/	
 	vars->plane_x = -0.66;
 	vars->plane_y = 0; /*camera plane of FOV 90*/
-	//added below
 	vars->first_map = NULL;
 	vars->map = NULL;
 	vars->player_x = 1.5;
@@ -44,8 +28,7 @@ int	initialize_vars(t_vars *vars)
 	return (0);
 }
 
-/*closes the windown when cross button 
-on the top-right corner is clicked.*/
+/*closes the windown and frees all the resources used to terminate the program.*/
 int	close_window(t_vars *vars)
 {
 	mlx_destroy_image(vars->mlx, vars->tex[0].img);
@@ -64,287 +47,13 @@ int	close_window(t_vars *vars)
 	return (0);
 }
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || y < 0 || x > IMG_WIDTH || y > IMG_HEIGHT)
-		return ;
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-unsigned int	pixel_color(t_data *data, int x, int y)
-{
-	char	*dst;
-
-	if (x < 0 || y < 0 || x > IMG_WIDTH || y > IMG_HEIGHT)
-		return (0);
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	return (*(unsigned int *)dst);
-}
-
-int	keypress(int keycode, t_vars *vars)
-{
-	if (keycode == 65307)
-		close_window(vars);
-	if (keycode == XK_w)
-		vars->go_u = 1;
-	else if (keycode == XK_s)
-		vars->go_d = 1;
-	else if (keycode == XK_d)
-		vars->go_r = 1;
-	else if (keycode == XK_a)
-		vars->go_l = 1;
-	else if (keycode == XK_Left)
-		vars->rotate_ccw = 1;
-	else if (keycode == XK_Right)
-		vars->rotate_cw = 1;
-	return (0);
-}
-
-void	rotate(t_vars *vars)
-{
-	double	x;
-	double	y;
-
-	if (!vars->rotate_cw && !vars->rotate_ccw)
-		return ;
-	if (vars->rotate_ccw)
-		vars->current_angle = (vars->current_angle + ROT_SPEED);
-	if (vars->rotate_cw)
-		vars->current_angle = (vars->current_angle - ROT_SPEED);
-	if (vars->current_angle > M_PI * 2)
-		vars->current_angle -= (M_PI * 2);
-	if (vars->current_angle < 0)
-		vars->current_angle += (M_PI * 2);
-	x = 0;
-	y = -1;
-	vars->dir_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
-	vars->dir_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
-	x = -0.66;
-	y = 0;
-	vars->plane_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
-	vars->plane_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
-	vars->rinfo.raydir_x = vars->dir_x;
-	vars->rinfo.raydir_y = vars->dir_y;
-}
-
-void	apply_move(t_vars *vars, double delta_x, double delta_y)
-{
-	int current_x_index;
-	int	current_y_index;
-	int	next_x_index;
-	int next_y_index;
-
-	current_x_index = (int)vars->player_x;
-	current_y_index = (int)vars->player_y;
-	next_x_index = (int)(vars->player_x + delta_x);
-	next_y_index = (int)(vars->player_y + delta_y);
-	if (vars->map[current_y_index][next_x_index] != '1')
-		vars->player_x += delta_x;
-	if (vars->map[next_y_index][current_x_index] != '1')
-		vars->player_y += delta_y;
-}
-
-void	move(t_vars *vars)
-{
-	if (vars->go_u)
-		apply_move(vars, MOVE_SPEED * vars->dir_x, MOVE_SPEED * vars->dir_y);
-	if (vars->go_d)
-		apply_move(vars, -MOVE_SPEED * vars->dir_x, -MOVE_SPEED * vars->dir_y);
-	if (vars->go_r)
-		apply_move(vars, MOVE_SPEED * vars->dir_y, -MOVE_SPEED * vars->dir_x);
-	if (vars->go_l)
-		apply_move(vars, -MOVE_SPEED * vars->dir_y, MOVE_SPEED * vars->dir_x);
-}
-
-int	keyrelease(int keycode, t_vars *vars)
-{
-	if (keycode == XK_w)
-		vars->go_u = 0;
-	else if (keycode == XK_s)
-		vars->go_d = 0;
-	else if (keycode == XK_d)
-		vars->go_r = 0;
-	else if (keycode == XK_a)
-		vars->go_l = 0;
-	else if (keycode == XK_Left)
-		vars->rotate_ccw = 0;
-	else if (keycode == XK_Right)
-		vars->rotate_cw = 0;
-	return (0);
-}
-
-void	shoot_rays(t_vars *vars)
-{
-	int	x;
-	double camera_x;
-
-	vars->wimg.img = mlx_new_image(vars->mlx, IMG_WIDTH, IMG_HEIGHT);
-	vars->wimg.addr = mlx_get_data_addr(vars->wimg.img,
-			&vars->wimg.bits_per_pixel,
-			&vars->wimg.line_length,
-			&vars->wimg.endian);
-	x = 0;
-	while(x < IMG_WIDTH)
-    {
-		camera_x = 2 * x / (double)IMG_WIDTH - 1;
-		vars->rinfo.raydir_x = vars->dir_x + vars->plane_x * camera_x;
-		vars->rinfo.raydir_y = vars->dir_y + vars->plane_y * camera_x;
-		get_dist(vars);
-		draw_line(vars, x);
-		x++;
-	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->wimg.img, 0, 0);
-	mlx_destroy_image(vars->mlx, vars->wimg.img);
-}
-
-void	draw_line(t_vars *vars, int x)
-{
-	int	lineheight;
-	int	drawstart;
-	int	drawend;
-	int	y;
-	int	i;
-	double	wall_x;
-	int		tex_x;
-	int		tex_y;
-	int		w_dir;
-
-	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y > 0)
-		w_dir = 0;
-	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y < 0)
-		w_dir = 1;
-	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x > 0)
-		w_dir = 2;
-	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x < 0)
-		w_dir = 3;
-	if (vars->rinfo.side == 0)
-		wall_x = vars->player_y + vars->rinfo.perpwalldist * vars->rinfo.raydir_y;
-	else
-		wall_x = vars->player_x + vars->rinfo.perpwalldist * vars->rinfo.raydir_x;
-	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * (double)(128));
-    lineheight = (int)(IMG_HEIGHT / vars->rinfo.perpwalldist);
-    drawstart = -lineheight / 2 + IMG_HEIGHT / 2;
-	i = 0;
-	if (drawstart < 0)
-	{
-		i = abs(drawstart);
-		drawstart = 0;
-	}
-	drawend = lineheight / 2 + IMG_HEIGHT / 2;
-	if (drawend >= IMG_HEIGHT)
-		drawend = IMG_HEIGHT - 1;
-	y = 0;
-	while (y < IMG_HEIGHT)
-	{
-		tex_y = (int)((double)i / (double)lineheight * (double)(128));
-		if (y >= drawstart && y <= drawend)
-		{
-			my_mlx_pixel_put(&(vars->wimg), x, y, pixel_color(&(vars->tex[w_dir]), tex_x, tex_y));
-			i++;
-		}
-		else if (y < IMG_HEIGHT / 2)
-			my_mlx_pixel_put(&(vars->wimg), x, y, vars->c_colour);
-		else
-			my_mlx_pixel_put(&(vars->wimg), x, y, vars->f_colour);
-		y++;
-	}
-}
-
 int	render_next_frame(t_vars *vars)
 {
 	move(vars);
 	rotate(vars);
-	shoot_rays(vars);
+	raycasting(vars);
 	return (0);
 }
-
-double  get_dist(t_vars *vars)
-{
-	vars->rinfo.map_x = (int)vars->player_x;
-	vars->rinfo.map_y = (int)vars->player_y;
-    if (vars->rinfo.raydir_x == 0)
-        vars->rinfo.deltadist_x = 9999999;
-    else
-        vars->rinfo.deltadist_x = fabs(1 / vars->rinfo.raydir_x);
-    if (vars->rinfo.raydir_y == 0)
-        vars->rinfo.deltadist_y = 9999999;
-    else
-       vars->rinfo.deltadist_y = fabs(1 / vars->rinfo.raydir_y);
-    vars->rinfo.hit = 0;
-    if (vars->rinfo.raydir_x < 0)
-    {
-        vars->rinfo.step_x = -1;
-        vars->rinfo.sidedist_x = (vars->player_x - vars->rinfo.map_x) * vars->rinfo.deltadist_x;
-    }
-    else
-    {
-        vars->rinfo.step_x = 1;
-        vars->rinfo.sidedist_x = (vars->rinfo.map_x + 1.0 - vars->player_x) * vars->rinfo.deltadist_x;
-    }
-    if (vars->rinfo.raydir_y < 0)
-    {
-        vars->rinfo.step_y = -1;
-       vars->rinfo.sidedist_y = (vars->player_y - vars->rinfo.map_y) * vars->rinfo.deltadist_y;
-    }
-    else
-    {
-        vars->rinfo.step_y = 1;
-        vars->rinfo.sidedist_y = (vars->rinfo.map_y + 1.0 - vars->player_y) * vars->rinfo.deltadist_y;
-    }
-    while (vars->rinfo.hit == 0)
-    {
-        if (vars->rinfo.sidedist_x < vars->rinfo.sidedist_y)
-        {
-            vars->rinfo.sidedist_x += vars->rinfo.deltadist_x;
-            vars->rinfo.map_x += vars->rinfo.step_x;
-            vars->rinfo.side = 0;
-        }
-        else
-        {
-            vars->rinfo.sidedist_y += vars->rinfo.deltadist_y;
-           vars->rinfo. map_y += vars->rinfo.step_y;
-        	vars->rinfo.side = 1;
-        }
-        if (vars->map[vars->rinfo.map_y][vars->rinfo.map_x] == '1')
-            vars->rinfo.hit = 1;
-    }
-    if(vars->rinfo.side == 0)
-		vars->rinfo.perpwalldist = (vars->rinfo.sidedist_x - vars->rinfo.deltadist_x);
-    else
-		vars->rinfo.perpwalldist = (vars->rinfo.sidedist_y - vars->rinfo.deltadist_y);
-}
-
-
-/*texture test module*/
-/* int	main(int argc, char **argv)
-{
-	t_vars	vars;
-	int		i;
-	int		j;
-
-	vars.file = argv[1];
-	initialize_vars(&vars);
-	j = 0;
-	vars.texture.img = mlx_xpm_file_to_image(vars.mlx, "pigsmall.xpm", &i, &j);
-	vars.texture.addr = mlx_get_data_addr(vars.texture.img,
-			&vars.texture.bits_per_pixel,
-			&vars.texture.line_length,
-			&vars.texture.endian);
-	j = 0;
-	while (j++ < 256)
-	{
-		i = 0;
-		while (i++ < 256)
-			my_mlx_pixel_put(&vars.img, i, j, pixel_color(&vars.texture, i / 2, j / 2));
-	}
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
-	mlx_loop(vars.mlx);
-	return (0);
-} */
 
 int	save_texture(t_vars *vars)
 {
