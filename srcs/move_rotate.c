@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_rotate.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/02 23:19:58 by jihalee           #+#    #+#             */
+/*   Updated: 2023/12/02 23:19:59 by jihalee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	rotate(t_vars *vars)
@@ -29,10 +41,10 @@ void	rotate(t_vars *vars)
 
 static void	apply_move(t_vars *vars, double delta_x, double delta_y)
 {
-	int current_x_index;
+	int	current_x_index;
 	int	current_y_index;
 	int	next_x_index;
-	int next_y_index;
+	int	next_y_index;
 
 	current_x_index = (int)vars->player_x;
 	current_y_index = (int)vars->player_y;
