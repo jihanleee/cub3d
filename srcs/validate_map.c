@@ -6,8 +6,8 @@
 void	save_player_info(t_vars *vars, char c, int x, int y)
 {
 	vars->players = vars->players + 1;
-	vars->start_x = x;
-	vars->start_y = y;
+	vars->player_x = x;
+	vars->player_y = y;
 	if (c == 'N')
 		vars->player_dir = NORTH;
 	else if (c == 'S')
