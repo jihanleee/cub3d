@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/03 02:39:08 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/03 00:31:00 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ typedef struct s_vars
 	int			start_x;
 	int			start_y;
 	int			player_dir;
+	double		init_dir_x;
+	double		init_dir_y;
 	double		dir_x;
 	double		dir_y;
 	double		plane_x;

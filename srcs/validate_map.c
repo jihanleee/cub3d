@@ -3,33 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/03 02:48:39 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/03 00:56:25 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <stdio.h>
 #include "cub3d.h"
 
-
 void	save_player_info(t_vars *vars, char c, int x, int y)
 {
 	vars->players = vars->players + 1;
-	vars->player_x = x;
-	vars->player_y = y;
+	vars->player_x = x + 0.5;
+	vars->player_y = y + 0.5;
 	if (c == 'N')
-		vars->player_dir = NORTH;
-	else if (c == 'S')
-		vars->player_dir = SOUTH;
-	else if (c == 'E')
-		vars->player_dir = WEST;
-	else if (c == 'W')
-		vars->player_dir = EAST;
-	printf("direction: %d\n", vars->player_dir);
+		vars->init_dir_x = 0;
+	if (c == 'N')
+		vars->init_dir_y = 1;
+	if (c == 'S')
+		vars->init_dir_x = 0;
+	if (c == 'S')
+		vars->init_dir_y = -1;
+	if (c == 'E')
+		vars->init_dir_x = 1;
+	if (c == 'E')
+		vars->init_dir_y = 0;
+	if (c == 'W')
+		vars->init_dir_x = -1;
+	if (c == 'W')
+		vars->init_dir_y = 0;
+	vars->dir_x = vars->init_dir_x;
+	vars->dir_y = vars->init_dir_y;
+	vars->plane_x = vars->init_dir_y * 0.66;
+	vars->plane_y = -vars->init_dir_x * 0.66;
 }
+
 int	map_content(t_vars *vars)
 {
 	char	**map;

@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 23:19:58 by jihalee           #+#    #+#             */
-/*   Updated: 2023/12/02 23:19:59 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/03 00:52:18 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	rotate(t_vars *vars)
 		vars->current_angle -= (M_PI * 2);
 	if (vars->current_angle < 0)
 		vars->current_angle += (M_PI * 2);
-	x = 0;
-	y = -1;
+	x = vars->init_dir_x;
+	y = vars->init_dir_y;
 	vars->dir_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
 	vars->dir_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
-	x = -0.66;
-	y = 0;
+	x = vars->init_dir_y * 0.66;
+	y = -vars->init_dir_x * 0.66;
 	vars->plane_x = x * cos(vars->current_angle) - y * sin(vars->current_angle);
 	vars->plane_y = x * sin(vars->current_angle) + y * cos(vars->current_angle);
 	vars->rinfo.raydir_x = vars->dir_x;
