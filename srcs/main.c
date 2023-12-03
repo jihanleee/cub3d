@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maya <maya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:58 by maya              #+#    #+#             */
-/*   Updated: 2023/12/03 02:25:00 by maya             ###   ########.fr       */
+/*   Updated: 2023/12/03 03:11:50 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,46 +69,73 @@ int	render_next_frame(t_vars *vars)
 	return (0);
 }
 
+int	texture_error_exit(t_vars *vars, char *line, int index, int fd)
+{
+	while (--index >= 0)
+		mlx_destroy_image(vars->mlx, vars->tex[index].img);
+	free_map(vars->first_map, vars->height);
+	free_map(vars->map, vars->height);
+	mlx_destroy_display(vars->mlx);
+	free(vars->mlx);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	exit_error("ERROR - Invalid Texture");
+}
+
+bool	is_cardinal_valid(char *line, int index)
+{
+	if ((index == 0 && ft_strncmp(line, "NO ", 3) == 0))
+		return (1);
+	if ((index == 1 && ft_strncmp(line, "SO ", 3) == 0))
+		return (1);
+	if ((index == 2 && ft_strncmp(line, "WE ", 3) == 0))
+		return (1);
+	if ((index == 3 && ft_strncmp(line, "EA ", 3) == 0))
+		return (1);
+	return (0);
+}
+
 int	save_texture(t_vars *vars)
 {
 	int		index;
 	char	*line;
-	char	*file;
-	char	**array;
 	int		fd;
 	int		i;
 	int		j;
 
 	index = 0;
 	fd = open(vars->file, O_RDONLY);
+	line = (char *)1;
+	while (line && index < 4)
+	{
+		line = get_next_line(fd);
+		if (!is_cardinal_valid(line, index))
+			texture_error_exit(vars, line, index, fd);
+		*(ft_strchr(line, '\n')) = '\0';
+		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, ft_strchr(line, ' ') + 1, &i, &j);
+		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
+			&(vars->tex[index].bits_per_pixel), \
+			&(vars->tex[index].line_length), \
+			&(vars->tex[index].endian));
+		if (i != 128 || j != 128)
+			mlx_destroy_image(vars->mlx, vars->tex[index].img);
+		if (vars->tex[index].img == NULL || i != 128 || j != 128)
+			texture_error_exit(vars, line, index, fd);
+		free(line);
+		index++;
+	}
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (index < 4)
-		{
-			array = ft_split(line, ' ');
-			file = ft_strtrim(array[1], "\n");
-			ft_printf("file %s\n", file);
-			vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, file, &i, &j);
-			vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
-				&(vars->tex[index].bits_per_pixel), \
-				&(vars->tex[index].line_length), \
-				&(vars->tex[index].endian));
-			if (array[2] != 0) //array[2]
-			{
-				exit_error("ERROR - Invalid Line in File");
-				//return (1);
-			}
-			free_array(array);
-			free(file);
-		}
 		free(line);
 		line = get_next_line(fd);
-		index++;
 	}
-	free(line);
 	return (0);
-}	
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
@@ -132,7 +159,6 @@ int	main(int argc, char **argv)
 	}
 	//print_maps(vars.map, &vars);//
 	initialize_mlx(&vars);
-	save_texture(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);
 	mlx_hook(vars.win, 02, 1L << 0, keypress, &vars);

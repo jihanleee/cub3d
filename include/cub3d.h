@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/03 00:31:00 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/03 01:35:25 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,5 @@ int				get_array_size(char **array);
 void			free_array(char **array);
 void			free_map(char **map, int max);
 
-
+int				save_texture(t_vars *vars);
 #endif

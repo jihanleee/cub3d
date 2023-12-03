@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 23:19:12 by jihalee           #+#    #+#             */
-/*   Updated: 2023/12/02 23:19:14 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/03 01:36:08 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	initialize_mlx(t_vars *vars)
 {
 	vars->mlx = mlx_init();
+	save_texture(vars);
 	vars->win = mlx_new_window(vars->mlx, IMG_WIDTH, IMG_HEIGHT, "cub3d");
 	vars->img.img = mlx_new_image(vars->mlx, IMG_WIDTH, IMG_HEIGHT);
 	vars->img.addr = mlx_get_data_addr(vars->img.img,
