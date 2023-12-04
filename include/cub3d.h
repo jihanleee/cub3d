@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/12/03 01:35:25 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/04 12:54:21 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,6 @@ typedef struct s_vars
 	int			players;
 	double		player_x;
 	double		player_y;
-	int			start_x;
-	int			start_y;
-	int			player_dir;
 	double		init_dir_x;
 	double		init_dir_y;
 	double		dir_x;
@@ -198,5 +195,6 @@ int				get_array_size(char **array);
 void			free_array(char **array);
 void			free_map(char **map, int max);
 
+/*import_textures.c*/
 int				save_texture(t_vars *vars);
 #endif

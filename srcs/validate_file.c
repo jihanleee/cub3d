@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   validate_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:46 by maya              #+#    #+#             */
-/*   Updated: 2023/12/03 03:01:36 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/04 13:01:53 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include <stdio.h>
 #include "cub3d.h"
@@ -55,7 +53,7 @@ int	line_first_word(char *str, int count)
 		result = ft_strncmp(str, "WE", 2);
 	else if (count == 3)
 		result = ft_strncmp(str, "EA", 2);
-	return (0);
+	return (result);
 }
 
 int	check_fc_char(const char *str, int count, size_t n)
@@ -81,7 +79,6 @@ int	fc_value(char **array, int count, t_vars *vars)
 {
 	char	**rgb;
 	int		index;
-	int		result;
 	int		temp;
 
 	if (ft_strlen(array[0]) != 1)
@@ -98,16 +95,18 @@ int	fc_value(char **array, int count, t_vars *vars)
 		index++;
 	}
 	if (count == 5)
-		vars->f_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
+		vars->f_colour = (ft_atoi(rgb[0]) << 16) + \
+		(ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
 	else if (count == 6)
-		vars->c_colour = (ft_atoi(rgb[0]) << 16) + (ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
+		vars->c_colour = (ft_atoi(rgb[0]) << 16) + \
+		(ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
 	free_array(rgb);
 	return (0);
 }
 
 void	validate_file(t_vars *vars)
 {
-	int fd;
+	int	fd;
 
 	if (hidden_file(vars->file, ".cub") == 1)
 		exit_error("ERROR - Hidden File");

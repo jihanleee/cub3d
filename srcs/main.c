@@ -6,11 +6,9 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:58 by maya              #+#    #+#             */
-/*   Updated: 2023/12/03 03:11:50 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/04 13:01:07 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include <stdio.h>
 #include "cub3d.h"
@@ -24,16 +22,8 @@ int	initialize_vars(t_vars *vars)
 	vars->rotate_cw = 0;
 	vars->rotate_ccw = 0;
 	vars->current_angle = 0;
-	vars->start_x = 0;
-	vars->start_y = 0;
-	vars->dir_x = 0;
-	vars->dir_y = -1; /*initial direction*/	
-	vars->plane_x = -0.66;
-	vars->plane_y = 0; /*camera plane of FOV 90*/
 	vars->first_map = NULL;
 	vars->map = NULL;
-	vars->player_x = 1.5;
-	vars->player_y = 1.5;
 	vars->players = 0;
 	vars->height = 0;
 	vars->width = 0;
@@ -42,7 +32,8 @@ int	initialize_vars(t_vars *vars)
 	return (0);
 }
 
-/*closes the windown and frees all the resources used to terminate the program.*/
+/*closes the windown and frees all the resources used 
+to terminate the program.*/
 int	close_window(t_vars *vars)
 {
 	mlx_destroy_image(vars->mlx, vars->tex[0].img);
@@ -51,9 +42,7 @@ int	close_window(t_vars *vars)
 	mlx_destroy_image(vars->mlx, vars->tex[3].img);
 	mlx_destroy_image(vars->mlx, vars->img.img);
 	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);/* 
-	free_map(vars->first_map, vars->height - 1); */
-	//free_textures(&vars);
+	mlx_destroy_display(vars->mlx);
 	free_map(vars->first_map, vars->height);
 	free_map(vars->map, vars->height);
 	free(vars->mlx);
@@ -69,95 +58,20 @@ int	render_next_frame(t_vars *vars)
 	return (0);
 }
 
-int	texture_error_exit(t_vars *vars, char *line, int index, int fd)
-{
-	while (--index >= 0)
-		mlx_destroy_image(vars->mlx, vars->tex[index].img);
-	free_map(vars->first_map, vars->height);
-	free_map(vars->map, vars->height);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	exit_error("ERROR - Invalid Texture");
-}
-
-bool	is_cardinal_valid(char *line, int index)
-{
-	if ((index == 0 && ft_strncmp(line, "NO ", 3) == 0))
-		return (1);
-	if ((index == 1 && ft_strncmp(line, "SO ", 3) == 0))
-		return (1);
-	if ((index == 2 && ft_strncmp(line, "WE ", 3) == 0))
-		return (1);
-	if ((index == 3 && ft_strncmp(line, "EA ", 3) == 0))
-		return (1);
-	return (0);
-}
-
-int	save_texture(t_vars *vars)
-{
-	int		index;
-	char	*line;
-	int		fd;
-	int		i;
-	int		j;
-
-	index = 0;
-	fd = open(vars->file, O_RDONLY);
-	line = (char *)1;
-	while (line && index < 4)
-	{
-		line = get_next_line(fd);
-		if (!is_cardinal_valid(line, index))
-			texture_error_exit(vars, line, index, fd);
-		*(ft_strchr(line, '\n')) = '\0';
-		vars->tex[index].img = mlx_xpm_file_to_image(vars->mlx, ft_strchr(line, ' ') + 1, &i, &j);
-		vars->tex[index].addr = mlx_get_data_addr((vars->tex[index].img), \
-			&(vars->tex[index].bits_per_pixel), \
-			&(vars->tex[index].line_length), \
-			&(vars->tex[index].endian));
-		if (i != 128 || j != 128)
-			mlx_destroy_image(vars->mlx, vars->tex[index].img);
-		if (vars->tex[index].img == NULL || i != 128 || j != 128)
-			texture_error_exit(vars, line, index, fd);
-		free(line);
-		index++;
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-/* 	int		i;
-	int		j; */
 
 	if (argc != 2)
 		return (1);
 	vars.file = argv[1];
 	initialize_vars(&vars);
 	validate_file(&vars);
-	/* save_texture(&vars); */
-	//free_map(vars.first_map, vars.height);
-	print_maps(vars.first_map, &vars);//
-	printf("f-colour: %u\n", vars.f_colour);
-	printf("c-colour: %u\n", vars.c_colour);
 	if (validate_map(&vars) == 1)
 	{
 		exit_error("ERROR - Invalid Map");
 		return (1);
 	}
-	//print_maps(vars.map, &vars);//
 	initialize_mlx(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_hook(vars.win, 17, 1L << 17, close_window, &vars);

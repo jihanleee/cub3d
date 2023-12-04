@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/03 00:56:25 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/04 13:00:45 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ int	map_content(t_vars *vars)
 		x = 0;
 		while (map[y][x])
 		{
-			if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E' || map[y][x] == 'W')
+			if (map[y][x] == 'N' || map[y][x] == 'S' || \
+			map[y][x] == 'E' || map[y][x] == 'W')
 				save_player_info(vars, map[y][x], x, y);
-			else if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != ' ' && map[y][x] != '\n')
+			else if (map[y][x] != '1' && map[y][x] != '0' && \
+			map[y][x] != ' ' && map[y][x] != '\n')
 				return (1);
 			x++;
 		}
@@ -94,7 +96,7 @@ char	*get_map_line(char *str, t_vars *vars)
 
 void	parse_map(t_vars *vars)
 {
-	int	count;
+	int		count;
 	char	*line;
 
 	vars->map = (char **)ft_calloc(sizeof(char *), (vars->height + 1));

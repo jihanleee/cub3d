@@ -22,13 +22,14 @@ SRCS =	./srcs/main.c \
 		./srcs/move_rotate.c \
 		./srcs/input.c \
 		./srcs/raycasting.c \
-		./srcs/mlx_utils.c
+		./srcs/mlx_utils.c \
+		./srcs/import_textures.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-CFLAGS = -g -Wextra -Wall #-Werror 
+CFLAGS = -g -Wextra -Wall -Werror
 
 all : $(NAME)
 
