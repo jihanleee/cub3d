@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 23:19:00 by jihalee           #+#    #+#             */
-/*   Updated: 2023/12/02 23:19:04 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/18 18:30:18 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static int	get_w_dir(t_vars *vars)
 	int		w_dir;
 
 	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y > 0)
-		w_dir = 0;
+		w_dir = SOUTH;
 	if (vars->rinfo.side == 1 && vars->rinfo.raydir_y < 0)
-		w_dir = 1;
+		w_dir = NORTH;
 	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x > 0)
-		w_dir = 2;
+		w_dir = WEST;
 	if (vars->rinfo.side == 0 && vars->rinfo.raydir_x < 0)
-		w_dir = 3;
+		w_dir = EAST;
 	return (w_dir);
 }
 

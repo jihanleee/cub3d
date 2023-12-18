@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:46 by maya              #+#    #+#             */
-/*   Updated: 2023/12/04 13:01:53 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/11 18:55:45 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	line_first_word(char *str, int count)
 {
 	int	result;
 
+	result = 1;
 	if (ft_strlen(str) != 2)
 		return (1);
 	if (count == 0)

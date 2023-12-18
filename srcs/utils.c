@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:25:13 by maya              #+#    #+#             */
-/*   Updated: 2023/12/04 13:01:00 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/11 18:56:09 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	get_array_size(char **array)
 {
 	int	count;
 
+	count = 0;
 	while (array[count])
 	{
 		count++;
