@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 12:50:49 by jihalee           #+#    #+#             */
-/*   Updated: 2023/12/04 13:02:05 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 16:11:03 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ bool	load_image(t_vars *vars, char *line, int index)
 
 	vars->tex[index].img = \
 	mlx_xpm_file_to_image(vars->mlx, ft_strchr(line, ' ') + 1, &w, &h);
+	if (!vars->tex[index].img)
+		return (1);
 	vars->tex[index].addr = \
 		mlx_get_data_addr((vars->tex[index].img), \
 		&(vars->tex[index].bits_per_pixel), \
