@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/20 16:53:46 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 17:19:43 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	map_content(t_vars *vars)
 				save_player_info(vars, map[y][x], x, y);
 			else if (map[y][x] != '1' && map[y][x] != '0' && \
 			map[y][x] != ' ' && map[y][x] != '\n')
-				return (1);
+				return (free_map(vars->first_map, vars->height), 1);
 			x++;
 		}
 		y++;
