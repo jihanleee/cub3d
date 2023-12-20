@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/20 15:30:30 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:54:05 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*get_map_line(char *str, t_vars *vars)
 	char	*new_string;
 	int		i;
 
-	new_string = (char *)ft_calloc(sizeof(char), (vars->width));
+	new_string = (char *)ft_calloc(sizeof(char), (vars->width + 1));
 	if (!new_string)
 		free(new_string);
 	i = 0;
