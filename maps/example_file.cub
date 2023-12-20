@@ -1,7 +1,6 @@
 NO ./textures/texture_1.xpm
 SO ./textures/texture_2.xpm
 WE ./textures/texture_3.xpm
-EA ./textures/texture_4.xpm
 
 F 220,100,0
 C 225,30,0
@@ -14,3 +13,4 @@ C 225,30,0
 1000000011111   
 100000001
  1111111
+EA ./textures/texture_4.xpm
