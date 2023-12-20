@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_lines.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:23:20 by maya              #+#    #+#             */
-/*   Updated: 2023/12/20 14:39:04 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/20 15:28:06 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,5 @@ int	check_lines(t_vars *vars)
 	if (result == 1)
 		return (1);
 	else
-	{
-		free(line);
-		add_to_map(vars, count);
-		return (0);
-	}
+		return (add_to_map((free(line), vars), count), 0);
 }

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2023/12/20 15:28:35 by solee2           ###   ########.fr       */
+=======
+/*   Updated: 2023/12/20 15:23:32 by jihalee          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +128,7 @@ int	validate_map(t_vars *vars)
 	print_maps(vars->map, vars);
 	if (check_borders(vars) == 1)
 	{
+		free_map(vars->map, vars->height);
 		free_map(vars->first_map, vars->height);
 		return (1);
 	}
