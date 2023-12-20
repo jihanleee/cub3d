@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:58 by maya              #+#    #+#             */
-/*   Updated: 2023/12/20 15:23:14 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/20 17:41:29 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 
 	if (argc != 2)
+	{
+		exit_error("ERROR - Invalid Number of Arguments");
 		return (1);
+	}
 	vars.file = argv[1];
 	initialize_vars(&vars);
 	validate_file(&vars);
