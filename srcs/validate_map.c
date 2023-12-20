@@ -6,7 +6,7 @@
 /*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/20 13:12:24 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/20 15:15:14 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	map_content(t_vars *vars)
 		y++;
 	}
 	if (vars->players != 1)
+	{
+		/* free_map(vars->first_map, vars->height); */
 		return (1);
+	}
 	return (0);
 }
 
@@ -117,10 +120,15 @@ void	parse_map(t_vars *vars)
 int	validate_map(t_vars *vars)
 {
 	if (map_content(vars) == 1)
+	{
 		return (1);
+	}
 	parse_map(vars);
 	print_maps(vars->map, vars);
 	if (check_borders(vars) == 1)
+	{
+		free_map(vars->first_map, vars->height);
 		return (1);
+	}
 	return (0);
 }
