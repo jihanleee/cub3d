@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:23:20 by maya              #+#    #+#             */
-/*   Updated: 2023/12/20 15:28:06 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 16:53:22 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	line_info(t_vars *vars, char *line, int count)
 void	malloc_map(t_vars *vars, int count)
 {
 	vars->height = count - 8;
+	if (vars->height <= 0)
+		exit_error("ERROR - Map Allocation Failed");
 	vars->first_map = (char **)ft_calloc(sizeof(char *), (vars->height + 1));
 	if (!vars->first_map)
 	{
