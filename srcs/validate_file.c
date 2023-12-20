@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:46 by maya              #+#    #+#             */
-/*   Updated: 2023/12/11 18:55:45 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 17:00:38 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	fc_value(char **array, int count, t_vars *vars)
 	while (index < 3)
 	{
 		temp = ft_atoi(rgb[index]);
-		if (temp < 0 || temp > 225)
+		if (temp < 0 || temp > 255)
 			return (free_array(rgb), 1);
 		index++;
 	}
