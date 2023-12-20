@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_lines.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:23:20 by maya              #+#    #+#             */
-/*   Updated: 2023/12/04 12:58:09 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 13:22:00 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	check_lines(t_vars *vars)
 	count = 0;
 	result = 0;
 	line = get_next_line(fd);
+	exit_error("ERROR - Empty File");
 	while (line)
 	{
 		if (count < 8 && line_info(vars, line, count) == 1)
