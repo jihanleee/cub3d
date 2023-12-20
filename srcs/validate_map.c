@@ -6,7 +6,7 @@
 /*   By: jihalee <jihalee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:48:37 by solee2            #+#    #+#             */
-/*   Updated: 2023/12/20 15:54:05 by jihalee          ###   ########.fr       */
+/*   Updated: 2023/12/20 16:25:35 by jihalee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int	validate_map(t_vars *vars)
 		return (1);
 	}
 	parse_map(vars);
-	print_maps(vars->map, vars);
 	if (check_borders(vars) == 1)
 	{
 		free_map(vars->map, vars->height);
