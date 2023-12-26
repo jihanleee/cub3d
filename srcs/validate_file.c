@@ -6,7 +6,7 @@
 /*   By: solee2 <solee2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 02:24:46 by maya              #+#    #+#             */
-/*   Updated: 2023/12/20 17:00:38 by solee2           ###   ########.fr       */
+/*   Updated: 2023/12/26 16:06:22 by solee2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ int	fc_value(char **array, int count, t_vars *vars)
 	int		index;
 	int		temp;
 
-	if (ft_strlen(array[0]) != 1)
-		return (1);
-	if (check_fc_char(array[0], count, 1) != 0)
+	if (ft_strlen(array[0]) != 1 || check_fc_char(array[0], count, 1) != 0)
 		return (1);
 	rgb = ft_split(array[1], ',');
 	index = 0;
+	if (rgb[0] == NULL || rgb[1] == NULL || rgb[2] == NULL)
+		return (free_array(rgb), 1);
 	while (index < 3)
 	{
 		temp = ft_atoi(rgb[index]);
@@ -101,8 +101,7 @@ int	fc_value(char **array, int count, t_vars *vars)
 	else if (count == 6)
 		vars->c_colour = (ft_atoi(rgb[0]) << 16) + \
 		(ft_atoi(rgb[1]) << 8) + (ft_atoi(rgb[2]));
-	free_array(rgb);
-	return (0);
+	return (free_array(rgb), 0);
 }
 
 void	validate_file(t_vars *vars)
